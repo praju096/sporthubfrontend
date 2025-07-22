@@ -1,0 +1,66 @@
+/* SportsEcommerce.css */
+.sports-ecommerce {
+  padding-top: 56px;
+}
+
+.carousel-caption {
+  bottom: 10rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.brand-card {
+  transition: transform 0.3s;
+}
+.brand-card:hover {
+  transform: translateY(-5px);
+}
+
+.category-card {
+  height: 150px;
+  transition: transform 0.3s;
+}
+.category-card:hover {
+  transform: scale(1.05);
+}
+
+.category-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.category-card:hover .category-overlay {
+  opacity: 1;
+}
+
+.product-card {
+  transition: transform 0.3s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.store-card {
+  transition: transform 0.3s;
+}
+.store-card:hover {
+  transform: translateY(-5px);
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+.social-icons a:hover {
+  background: rgba(255,255,255,0.2);
+}
