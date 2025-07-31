@@ -15,6 +15,7 @@ const ProductDetail = () => {
     const { productDetail, loading, error } = useSelector(
         (state: RootState) => state.products
     );
+    const cartItems = useSelector((state: RootState) => state.cart.userCart);
 
     useEffect(() => {
         if (productId) dispatch(getProductById(productId));
@@ -42,6 +43,7 @@ const ProductDetail = () => {
         toast.success("Product Add In Cart");
     };
 
+    const isInCart = cartItems.some(item => item.product_id === productDetail.id);
 
     return (
         <div className="container py-5 mt-5">
@@ -102,8 +104,8 @@ const ProductDetail = () => {
                     )}
 
                     <div className="d-flex gap-3">
-                        <button className="btn btn-danger btn-lg px-4 shadow-sm" onClick={() => handleAddToCart(productDetail.id)}>
-                            <i className="fas fa-shopping-cart me-2"></i>Add to Cart
+                        <button className="btn btn-danger btn-lg px-4 shadow-sm" onClick={() => handleAddToCart(productDetail.id)} disabled={isInCart}>
+                            <i className="fas fa-shopping-cart me-2"></i>{isInCart ? 'Added to Cart' : 'Add to Cart'}
                         </button>
                         <button className="btn btn-outline-dark btn-lg px-4 shadow-sm">
                             <i className="fas fa-heart me-2"></i>Add to Wishlist

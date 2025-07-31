@@ -21,6 +21,7 @@ const Shop: React.FC = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { allProducts, loading, error } = useSelector((state: RootState) => state.products);
+    const cartItems = useSelector((state: RootState) => state.cart.userCart);
 
     useEffect(() => {
         if (submittedQuery.trim() !== "") {
@@ -98,13 +99,11 @@ const Shop: React.FC = () => {
 
             <div className="container">
                 <div className="row">
-                    {/* Sidebar Filters */}
                     <div className="col-md-3 mb-4">
                         <div className="card shadow-sm filter-card">
                             <div className="card-body">
                                 <h5 className="card-title mb-4">FILTERS</h5>
 
-                                {/* Search */}
                                 <div className="mb-4">
                                     <form onSubmit={handleSearchSubmit}>
                                         <label className="form-label">Search Products</label>
@@ -132,8 +131,6 @@ const Shop: React.FC = () => {
                                     </form>
                                 </div>
 
-
-                                {/* Price Range */}
                                 <div className="mb-4">
                                     <label className="form-label">Price Range</label>
                                     <input
@@ -153,7 +150,6 @@ const Shop: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Sizes */}
                                 <div className="mb-4">
                                     <label className="form-label">Sizes</label>
                                     <div className="size-options d-flex flex-wrap gap-2">
@@ -175,7 +171,6 @@ const Shop: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Colors */}
                                 <div className="mb-4">
                                     <label className="form-label">Colors</label>
                                     <div className="color-options d-flex flex-wrap gap-2">
@@ -199,7 +194,6 @@ const Shop: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Categories */}
                                 <div className="mb-4">
                                     <label className="form-label">Categories</label>
                                     <div className="list-group">
@@ -244,7 +238,6 @@ const Shop: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Products Grid */}
                     <div className="col-md-9">
                         {/* Sort Options */}
                         <div className="d-flex justify-content-between align-items-center mb-4">
@@ -265,7 +258,6 @@ const Shop: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Products */}
                         {loading ? (
                             <div className="text-center py-5">
                                 <div className="spinner-border text-danger" role="status"></div>
@@ -274,65 +266,67 @@ const Shop: React.FC = () => {
                             <div className="alert alert-danger text-center">{error}</div>
                         ) : sortedProducts.length > 0 ? (
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
-                                {sortedProducts.map((product) => (
-                                    <div className="col" key={product.id}>
-                                        <div className="card product-card h-100 shadow-sm">
+                                {sortedProducts.map((product) => {
+                                    const isInCart = cartItems.some(item => item.product_id === product.id);
+                                    return (
+                                        <div className="col" key={product.id}>
+                                            <div className="card product-card h-100 shadow-sm">
 
-                                            {/* Product Image */}
-                                            <div className="product-image-wrapper">
-                                                <img
-                                                    src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
-                                                    className="card-img-top"
-                                                    alt={product.name}
-                                                    style={{ width: '100%', height: '250px' }}
-                                                />
-                                                <div className="product-overlay d-flex flex-column gap-2">
-                                                    <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm w-75 ">
-                                                        Quick View
-                                                    </Link>
-                                                    <button
-                                                        className="btn btn-outline-light btn-sm w-75"
-                                                        onClick={() => handleAddToWishlist(product.id)}
-                                                    >
-                                                        Add to Wishlist
-                                                    </button>
+                                                <div className="product-image-wrapper">
+                                                    <img
+                                                        src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
+                                                        className="card-img-top"
+                                                        alt={product.name}
+                                                        style={{ width: '100%', height: '250px' }}
+                                                    />
+                                                    <div className="product-overlay d-flex flex-column gap-2">
+                                                        <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm w-75 ">
+                                                            Quick View
+                                                        </Link>
+                                                        <button
+                                                            className="btn btn-outline-light btn-sm w-75"
+                                                            onClick={() => handleAddToWishlist(product.id)}
+                                                        >
+                                                            Add to Wishlist
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            {/* Product Body */}
-                                            <div className="card-body">
-                                                <h5 className="card-title">{product.name}</h5>
-                                                <div className="d-flex justify-content-between align-items-center mb-2">
-                                                    <div>
-                                                        <span className="text-danger fw-bold">
-                                                            ₹{product.price}
-                                                        </span>
-                                                        {Number(product.original_price) > 0 && (
-                                                            <span className="text-muted text-decoration-line-through ms-2">
-                                                                ₹{product.original_price}
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{product.name}</h5>
+                                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                                        <div>
+                                                            <span className="text-danger fw-bold">
+                                                                ₹{product.price}
                                                             </span>
-                                                        )}
+                                                            {Number(product.original_price) > 0 && (
+                                                                <span className="text-muted text-decoration-line-through ms-2">
+                                                                    ₹{product.original_price}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <div className="text-warning">
+                                                            {'★'.repeat(Math.floor(product.rating))}
+                                                            {'☆'.repeat(5 - Math.floor(product.rating))}
+                                                            <span className="text-muted ms-2">
+                                                                ({product.rating})
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <div className="text-warning">
-                                                        {'★'.repeat(Math.floor(product.rating))}
-                                                        {'☆'.repeat(5 - Math.floor(product.rating))}
-                                                        <span className="text-muted ms-2">
-                                                            ({product.rating})
-                                                        </span>
+                                                    <div className="d-grid gap-2">
+                                                        <button
+                                                            className="btn btn-outline-danger"
+                                                            onClick={() => handleAddToCart(product.id)}
+                                                            disabled={isInCart}
+                                                        >
+                                                            {isInCart ? 'Added to Cart' : 'Add to Cart'}
+                                                        </button>
                                                     </div>
-                                                </div>
-                                                <div className="d-grid gap-2">
-                                                    <button
-                                                        className="btn btn-outline-danger"
-                                                        onClick={() => handleAddToCart(product.id)}
-                                                    >
-                                                        Add to Cart
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         ) : (
                             <div className="alert alert-warning text-center">

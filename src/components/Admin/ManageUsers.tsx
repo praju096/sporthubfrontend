@@ -36,7 +36,7 @@ const ManageUsers: React.FC = () => {
   return (
     <div className="card shadow rounded-4 p-4">
       <h3 className="mb-4">
-        <i className={`fas fa-user`}></i> Manage Users
+        <i className={`fas fa-user text-danger`}></i> Manage Users
       </h3>
       <table className="table table-striped table-hover">
         <thead className="table-dark">

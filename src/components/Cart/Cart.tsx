@@ -1,5 +1,4 @@
-// src/pages/Cart.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Home/Footer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,28 +6,39 @@ import { AppDispatch, RootState } from '../../store';
 import { fetchUserCart, removeFromCart, updateCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 
-
-const Cart: React.FC = () => {
+const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userCart, loading, error } = useSelector(
     (state: RootState) => state.cart
   );
+  const [updatingItems, setUpdatingItems] = useState<Record<number, boolean>>({});
+  const [removingItems, setRemovingItems] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     dispatch(fetchUserCart());
   }, [dispatch]);
 
-  const updateQuantity = (id: number, change: number) => {
+  const updateQuantity = async (id: number, change: number) => {
     if (change < 1) return;
 
-    dispatch(updateCart({ productId: id, quantity: change }));
+    setUpdatingItems(prev => ({ ...prev, [id]: true }));
+    try {
+      await dispatch(updateCart({ productId: id, quantity: change }));
+    } finally {
+      setUpdatingItems(prev => ({ ...prev, [id]: false }));
+    }
   };
 
   const removeItem = async (id: number) => {
     if (window.confirm("Are you sure you want to remove this product from cart?")) {
-      await dispatch(removeFromCart(id));
-      dispatch(fetchUserCart());
-      toast.error("Product Remove Successfully");
+      setRemovingItems(prev => ({ ...prev, [id]: true }));
+      try {
+        await dispatch(removeFromCart(id));
+        dispatch(fetchUserCart());
+        toast.error("Product Remove Successfully");
+      } finally {
+        setRemovingItems(prev => ({ ...prev, [id]: false }));
+      }
     }
   };
 
@@ -38,7 +48,7 @@ const Cart: React.FC = () => {
     <>
       <div className="container py-5 cart-page">
         <h2 className="mt-4 mb-4 fw-bold ">Your Cart</h2>
-        {loading ? (
+        {loading && userCart.length === 0 ? (
           <div className="text-center py-5">
             <div className="spinner-border text-danger" role="status"></div>
           </div>
@@ -70,18 +80,42 @@ const Cart: React.FC = () => {
 
                         <div className="d-flex align-items-center gap-3 flex-wrap">
                           <div className="input-group quantity-control" style={{ width: '120px' }}>
-                            <button className="btn btn-outline-secondary" onClick={() => updateQuantity(cart.product_id, cart.quantity - 1)}>-</button>
-                            <input
-                              type="text"
-                              className="form-control text-center"
-                              value={cart.quantity}
-                              readOnly
-                            />
-                            <button className="btn btn-outline-secondary" onClick={() => updateQuantity(cart.product_id, cart.quantity + 1)}>+</button>
+                            <button 
+                              className="btn btn-outline-secondary" 
+                              onClick={() => updateQuantity(cart.product_id, cart.quantity - 1)}
+                              disabled={updatingItems[cart.product_id] || cart.quantity <= 1}
+                            >
+                              {updatingItems[cart.product_id] && cart.quantity <= 1 ? (
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              ) : '-'}
+                            </button>
+                            <div className="form-control text-center d-flex align-items-center justify-content-center">
+                              {updatingItems[cart.product_id] ? (
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              ) : cart.quantity}
+                            </div>
+                            <button 
+                              className="btn btn-outline-secondary" 
+                              onClick={() => updateQuantity(cart.product_id, cart.quantity + 1)}
+                              disabled={updatingItems[cart.product_id]}
+                            >
+                              {updatingItems[cart.product_id] ? (
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              ) : '+'}
+                            </button>
                           </div>
 
-                          <button className="btn btn-outline-danger" onClick={() => removeItem(cart.product_id)}>
-                            <i className="fas fa-trash-alt me-1"></i> Remove
+                          <button 
+                            className="btn btn-outline-danger" 
+                            onClick={() => removeItem(cart.product_id)}
+                            disabled={removingItems[cart.product_id]}
+                          >
+                            {removingItems[cart.product_id] ? (
+                              <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            ) : (
+                              <i className="fas fa-trash-alt me-1"></i>
+                            )}
+                            Remove
                           </button>
                         </div>
                       </div>
@@ -89,7 +123,6 @@ const Cart: React.FC = () => {
                   </div>
                 </div>
               ))}
-
             </div>
 
             <div className="col-lg-4 mb-3">
@@ -97,24 +130,35 @@ const Cart: React.FC = () => {
                 <h4 className="fw-bold mb-3">Summary</h4>
                 <p><strong>Cart Items:</strong> {userCart.length}</p>
                 <p><strong>Total:</strong> <span className="text-danger fs-5">₹{totalPrice}</span></p>
-                <button className="btn btn-danger w-100 mt-3">Proceed to Checkout</button>
+                <button 
+                  className="btn btn-danger w-100 mt-3"
+                  disabled={loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)}
+                >
+                  {(loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)) ? (
+                    <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                  ) : null}
+                  Proceed to Checkout
+                </button>
               </div>
             </div>
           </div>
         )}
 
         <style>{`
-        .cart-page h2 {
-          font-size: 2rem;
-        }
-        .cart-card:hover {
-          background-color: #f8f9fa;
-        }
-        .quantity-control input {
-          max-width: 50px;
-        }
-      `}</style>
-
+          .cart-page h2 {
+            font-size: 2rem;
+          }
+          .cart-card:hover {
+            background-color: #f8f9fa;
+          }
+          .quantity-control .form-control {
+            max-width: 50px;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        `}</style>
       </div>
       <Footer />
     </>

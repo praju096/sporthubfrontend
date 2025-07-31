@@ -1,15 +1,17 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import IMAGES from '../../constant/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchFeaturedProduct } from '../../redux/features/products/productSlice';
+import { CartItem } from '../../types/cartTypes';
 
 interface FeaturedProductsProps {
-  onAddToCart: (productId: number) => void;
+    onAddToCart: (productId: number) => void;
+    cartItems: CartItem[];
 };
 
-const FeaturedProducts: React.FC<FeaturedProductsProps> = ({onAddToCart}) => {
+const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, cartItems }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { featuredProduct, loading, error } = useSelector((state: RootState) => state.products);
@@ -43,50 +45,59 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({onAddToCart}) => {
                     </div>
                 ) : (
                     <div className="row g-4">
-                        {featuredProduct.map((product) => (
-                            <div className="col-6 col-md-4 col-lg-3" key={product.id}>
-                                <div className="product-card card h-100 border-0 shadow-sm">
-                                    <div className="position-relative product-hover-container">
-                                        <div className="badge bg-success position-absolute mt-2 me-2 end-0">Featured</div>
-                                        <img src={`${process.env.REACT_APP_API_URL}${product.image_url}`} className="card-img-top" alt={product.name} style={{ width: '100%', height: '250px' }} />
+                        {featuredProduct.map((product) => {
+                            const isInCart = cartItems.some(item => item.product_id === product.id);
+                            return (
+                                <div className="col-6 col-md-4 col-lg-3" key={product.id}>
+                                    <div className="product-card card h-100 border-0 shadow-sm">
+                                        <div className="position-relative product-hover-container">
+                                            <div className="badge bg-success position-absolute mt-2 me-2 end-0">Featured</div>
+                                            <img src={`${process.env.REACT_APP_API_URL}${product.image_url}`} className="card-img-top" alt={product.name} style={{ width: '100%', height: '250px' }} />
 
-                                        {/* Hover Buttons */}
-                                        <div className="hover-buttons d-flex flex-column gap-2">
-                                            <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm">
-                                                Quick View
-                                            </Link>
-                                            <button className="btn btn-sm btn-outline-light">Add to Wishlist</button>
+                                            {/* Hover Buttons */}
+                                            <div className="hover-buttons d-flex flex-column gap-2">
+                                                <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm">
+                                                    Quick View
+                                                </Link>
+                                                <button className="btn btn-sm btn-outline-light">Add to Wishlist</button>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="card-body">
-                                        <h5 className="card-title">{product.name}</h5>
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <span className="text-danger fw-bold">
-                                                    ₹{product.price}
-                                                </span>
-                                                {Number(product.original_price) > 0 && (
-                                                    <span className="text-muted text-decoration-line-through ms-2">
-                                                        ₹{product.original_price}
+                                        <div className="card-body">
+                                            <h5 className="card-title">{product.name}</h5>
+                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                                <div>
+                                                    <span className="text-danger fw-bold">
+                                                        ₹{product.price}
                                                     </span>
-                                                )}
+                                                    {Number(product.original_price) > 0 && (
+                                                        <span className="text-muted text-decoration-line-through ms-2">
+                                                            ₹{product.original_price}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="text-warning">
+                                                    {'★'.repeat(Math.floor(product.rating))}
+                                                    {'☆'.repeat(5 - Math.floor(product.rating))}
+                                                    <span className="text-muted ms-2">
+                                                        ({product.rating})
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="text-warning">
-                                                {'★'.repeat(Math.floor(product.rating))}
-                                                {'☆'.repeat(5 - Math.floor(product.rating))}
-                                                <span className="text-muted ms-2">
-                                                    ({product.rating})
-                                                </span>
+                                            <div className="d-grid gap-2">
+                                                <button
+                                                    className="btn btn-outline-danger"
+                                                    onClick={() => onAddToCart(product.id)}
+                                                    disabled={isInCart}
+                                                >
+                                                    {isInCart ? 'Added to Cart' : 'Add to Cart'}
+                                                </button>
                                             </div>
-                                        </div>
-                                        <div className="d-grid gap-2">
-                                            <button className="btn btn-outline-danger" onClick={() => onAddToCart(product.id)}>Add to Cart</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 )}
 
