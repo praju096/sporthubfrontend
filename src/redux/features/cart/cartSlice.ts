@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import cartApi from "../../../services/cartApi";
 import { CartItem, AddToCartRequest, AdminCartItem } from "../../../types/cartTypes";
+import { userLogout } from "../authSlice";
 
 interface CartState {
   userCart: CartItem[];
@@ -106,6 +107,9 @@ const cartSlice = createSlice({
       .addCase(fetchUserCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(userLogout.fulfilled, (state) => {
+        state.userCart = [];
       })
 
       // Fetch Cart user

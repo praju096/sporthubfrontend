@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { LoginUser } from "../../types/authTypes";
 import { AppDispatch, RootState } from "../../store";
 import { loginUserSchema } from "../../types/validation/loginUserSchema";
+import { fetchUserCart } from "../../redux/features/cart/cartSlice";
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,7 @@ const Login = () => {
       const resultAction = await dispatch(loginUsers(data));
       if (loginUsers.fulfilled.match(resultAction)) {
         toast.success("Login Successful");
+        dispatch(fetchUserCart());
         navigate("/welcome");
       } else {
         toast.error(resultAction.payload as string);

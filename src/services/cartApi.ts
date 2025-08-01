@@ -1,4 +1,4 @@
-import API from './axios'; // Adjust path
+import API from './axios';
 import { CartItem, AddToCartRequest, AdminCartItem } from '../types/cartTypes';
 
 const fetchUserCart = async (): Promise<CartItem[]> => {
