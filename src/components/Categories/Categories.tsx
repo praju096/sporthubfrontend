@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import './Categories.css';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../redux/features/cart/cartSlice';
+import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
 
 
 const Categories: React.FC = () => {
@@ -24,6 +25,7 @@ const Categories: React.FC = () => {
     (state: RootState) => state.categoryProducts
   );
   const cartItems = useSelector((state: RootState) => state.cart.userCart);
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
 
   useEffect(() => {
     dispatch(fetchProductsByCategory(selectedCategory));
@@ -38,8 +40,9 @@ const Categories: React.FC = () => {
     toast.success("Product Add In Cart");
   };
 
-  const handleAddToWishlist = (productId: number) => {
-    alert(`Added product ${productId} to wishlist.`);
+  const handleAddToWishlist = async (productId: number) => {
+    await dispatch(addWishlist({ product_id: productId }));
+    toast.success("Product Add In Wishlist");
   };
 
   const categoryDisplayNameMap: Record<typeof selectedCategory, string> = {
@@ -99,6 +102,7 @@ const Categories: React.FC = () => {
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
               {categoryProducts.map((product) => {
                 const isInCart = cartItems.some(item => item.product_id === product.id);
+                const isInWishlist= wishlistItems.some(item => item.product_id === product.id);
                 return (
                   <div className="col" key={product.id}>
                     <div className="card product-card h-100 shadow-sm">
@@ -109,7 +113,12 @@ const Categories: React.FC = () => {
                           <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm w-75">
                             Quick View
                           </Link>
-                          <button className="btn btn-outline-light btn-sm w-75" onClick={() => handleAddToWishlist(product.id)}>Add to Wishlist</button>
+                          <button className="btn btn-sm btn-outline-light w-75"
+                            onClick={() => handleAddToWishlist(product.id)}
+                            disabled={isInWishlist}
+                          >
+                            {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
+                          </button>
                         </div>
                       </div>
 

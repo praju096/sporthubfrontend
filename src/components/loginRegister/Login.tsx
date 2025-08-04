@@ -9,6 +9,7 @@ import { LoginUser } from "../../types/authTypes";
 import { AppDispatch, RootState } from "../../store";
 import { loginUserSchema } from "../../types/validation/loginUserSchema";
 import { fetchUserCart } from "../../redux/features/cart/cartSlice";
+import { fetchWishlist } from "../../redux/features/wishlist/wishlistSlice";
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +33,7 @@ const Login = () => {
       if (loginUsers.fulfilled.match(resultAction)) {
         toast.success("Login Successful");
         dispatch(fetchUserCart());
+        dispatch(fetchWishlist());
         navigate("/welcome");
       } else {
         toast.error(resultAction.payload as string);

@@ -14,15 +14,23 @@ import { addToCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.userCart);
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist)
 
   const handleAddToCart = async (productId: number) => {
     await dispatch(addToCart({ product_id: productId, quantity: 1 }));
     toast.success("Product Add In Cart");
   };
+
+  const handleAddToWishlist = async (productId: number) => {
+    await dispatch(addWishlist({ product_id: productId }));
+    toast.success("Product Add In Wishlist");
+  };
+
   return (
     <div className="sports-ecommerce">
 
@@ -36,10 +44,20 @@ const Home = () => {
       <CategoriesSection />
 
       {/* Featured Products */}
-      <FeaturedProducts onAddToCart={handleAddToCart} cartItems={cartItems}/>
+      <FeaturedProducts
+        onAddToCart={handleAddToCart}
+        onAddToWishlist={handleAddToWishlist}
+        cartItems={cartItems}
+        wishlistItems={wishlistItems}
+      />
 
       {/* Bestsellers */}
-      <Bestsellers onAddToCart={handleAddToCart} cartItems={cartItems} />
+      <Bestsellers
+        onAddToCart={handleAddToCart}
+        onAddToWishlist={handleAddToWishlist}
+        cartItems={cartItems}
+        wishlistItems={wishlistItems}
+      />
 
       {/* Store Locations */}
       <StoreLocations />

@@ -32,6 +32,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store';
 import { fetchCurrentUser } from './redux/features/authSlice';
 import AdminPrivateRoute from './AdminPrivateRoute';
+import { fetchUserCart } from './redux/features/cart/cartSlice';
+import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
 
 
 const LayoutWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -51,6 +53,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
+    dispatch(fetchUserCart());
+    dispatch(fetchWishlist());
   }, [dispatch]);
 
   return (

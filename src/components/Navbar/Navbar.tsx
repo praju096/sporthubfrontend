@@ -10,7 +10,9 @@ const Navbar = () => {
   const { userCart } = useSelector(
     (state: RootState) => state.cart
   );
-  const wishlistItemCount = 3;
+  const { wishlist } = useSelector(
+    (state: RootState) => state.wishlist
+  );
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `nav-link ${isActive ? 'active fw-bold border-bottom border-danger border-2' : ''}`;
@@ -64,9 +66,9 @@ const Navbar = () => {
                 <li className="nav-item position-relative">
                   <NavLink className={navLinkClass} to="/wishlist">
                     <i className="fa fa-heart fs-5"></i>
-                    {wishlistItemCount > 0 && (
+                    {wishlist.length > 0 && (
                       <span className="position-absolute translate-middle badge rounded-pill bg-danger">
-                        {wishlistItemCount}
+                        {wishlist.length}
                         <span className="visually-hidden">wishlist items</span>
                       </span>
                     )}

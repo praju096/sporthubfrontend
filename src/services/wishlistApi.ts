@@ -1,25 +1,23 @@
 import API from './axios';
-import { WishlistItem } from '../types/wishlistTypes';
+import { MoveToCartRequest, WishlistItem } from '../types/wishlistTypes';
 
-const getWishlist = async (userId: number): Promise<WishlistItem[]> => {
-  const res = await API.get(`/api/wishlist/${userId}`);
-  return res.data;
+const getWishlist = async (): Promise<WishlistItem[]> => {
+  const res = await API.get(`/api/wishlist`);
+  return res.data.data;
 };
 
-const add = async (data: { user_id: number; product_id: number }) => {
+const add = async (data: { product_id: number }): Promise<{ message: string }> => {
   const res = await API.post(`/api/wishlist`, data);
   return res.data;
 };
 
-const remove = async (user_id: number, product_id: number) => {
-  const res = await API.delete(`/api/wishlist`, {
-    data: { user_id, product_id },
-  });
+const remove = async (product_id: number): Promise<{ message: string }>=> {
+  const res = await API.delete(`/api/wishlist/${product_id}`);
   return res.data;
 };
 
-const moveToCart = async (user_id: number, product_id: number) => {
-  const res = await API.post(`/api/wishlist/movetocart`, { user_id, product_id });
+const moveToCart = async (data: MoveToCartRequest) => {
+  const res = await API.post(`/api/wishlist/movetocart`, data);
   return res.data;
 };
 

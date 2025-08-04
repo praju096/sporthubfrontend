@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { WishlistItem } from "../../../types/wishlistTypes";
+import { MoveToCartRequest, WishlistItem } from "../../../types/wishlistTypes";
 import wishlistApi from "../../../services/wishlistApi";
+import { userLogout } from "../authSlice";
 
 interface WishlistState {
     wishlist: WishlistItem[];
@@ -16,9 +17,9 @@ const initialState: WishlistState = {
 
 export const fetchWishlist = createAsyncThunk(
     "wishlist/fetchWishlist",
-    async (userId: number, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await wishlistApi.getWishlistByUser(userId);
+            return await wishlistApi.getWishlistByUser();
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || err.message);
         }
@@ -28,42 +29,37 @@ export const fetchWishlist = createAsyncThunk(
 export const addWishlist = createAsyncThunk(
     "wishlist/addWishlist",
     async (
-        data: { user_id: number; product_id: number },
+        data: { product_id: number },
         { rejectWithValue }
     ) => {
         try {
             await wishlistApi.addToWishlist(data);
-            return data.product_id;
+            return wishlistApi.getWishlistByUser();
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || err.message);
         }
     }
 );
 
-export const removeWishlist = createAsyncThunk(
+export const removeWishlist = createAsyncThunk<WishlistItem[], number>(
     "wishlist/removeWishlist",
-    async (
-        { user_id, product_id }: { user_id: number; product_id: number },
-        { rejectWithValue }
-    ) => {
+    async (product_id, { rejectWithValue }) => {
         try {
-            await wishlistApi.removeFromWishlist(user_id, product_id);
-            return product_id;
+            await wishlistApi.removeFromWishlist(product_id);
+            return await wishlistApi.getWishlistByUser();
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || err.message);
         }
     }
 );
 
-export const moveToCart = createAsyncThunk(
+export const moveToCartWishlist = createAsyncThunk<WishlistItem[], MoveToCartRequest>(
     "wishlist/moveToCart",
     async (
-        { user_id, product_id }: { user_id: number; product_id: number },
-        { rejectWithValue }
-    ) => {
+        data, { rejectWithValue }) => {
         try {
-            await wishlistApi.moveToCartFromWishlist(user_id, product_id);
-            return product_id;
+            await wishlistApi.moveToCartFromWishlist(data);
+            return await wishlistApi.getWishlistByUser();
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || err.message);
         }
@@ -90,14 +86,18 @@ const wishlistSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string;
             })
+            .addCase(userLogout.fulfilled, (state) => {
+                state.wishlist = [];
+            })
 
             // Add Wishlist
             .addCase(addWishlist.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(addWishlist.fulfilled, (state) => {
+            .addCase(addWishlist.fulfilled, (state, action) => {
                 state.loading = false;
+                state.wishlist = action.payload;
             })
             .addCase(addWishlist.rejected, (state, action) => {
                 state.loading = false;
@@ -111,9 +111,7 @@ const wishlistSlice = createSlice({
             })
             .addCase(removeWishlist.fulfilled, (state, action) => {
                 state.loading = false;
-                state.wishlist = state.wishlist.filter(
-                    (item) => item.product_id !== action.payload
-                );
+                state.wishlist = action.payload;
             })
             .addCase(removeWishlist.rejected, (state, action) => {
                 state.loading = false;
@@ -121,17 +119,15 @@ const wishlistSlice = createSlice({
             })
 
             // Move to Cart
-            .addCase(moveToCart.pending, (state) => {
+            .addCase(moveToCartWishlist.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(moveToCart.fulfilled, (state, action) => {
+            .addCase(moveToCartWishlist.fulfilled, (state, action) => {
                 state.loading = false;
-                state.wishlist = state.wishlist.filter(
-                    (item) => item.product_id !== action.payload
-                );
+                state.wishlist = action.payload;
             })
-            .addCase(moveToCart.rejected, (state, action) => {
+            .addCase(moveToCartWishlist.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             });

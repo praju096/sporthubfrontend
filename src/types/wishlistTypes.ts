@@ -6,3 +6,7 @@ export interface WishlistItem {
   image_url: string;
   price: number;
 }
+
+export interface MoveToCartRequest { 
+  product_id: number;
+}

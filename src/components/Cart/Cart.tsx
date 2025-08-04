@@ -65,12 +65,14 @@ const Cart = () => {
                 <div key={cart.id} className="card mb-3 shadow-sm cart-card">
                   <div className="row g-0">
                     <div className="col-md-3 d-flex align-items-center justify-content-center p-2">
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}${cart.image_url}`}
-                        alt={cart.product_name}
-                        className="img-fluid rounded"
-                        style={{ maxHeight: '120px', objectFit: 'contain' }}
-                      />
+                      <Link to={`/product/${cart.product_id}`} className="text-decoration-none text-dark">
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}${cart.image_url}`}
+                          alt={cart.product_name}
+                          className="img-fluid rounded"
+                          style={{ maxHeight: '120px', objectFit: 'contain' }}
+                        />
+                      </Link>
                     </div>
 
                     <div className="col-md-9">
@@ -80,8 +82,8 @@ const Cart = () => {
 
                         <div className="d-flex align-items-center gap-3 flex-wrap">
                           <div className="input-group quantity-control" style={{ width: '120px' }}>
-                            <button 
-                              className="btn btn-outline-secondary" 
+                            <button
+                              className="btn btn-outline-secondary"
                               onClick={() => updateQuantity(cart.product_id, cart.quantity - 1)}
                               disabled={updatingItems[cart.product_id] || cart.quantity <= 1}
                             >
@@ -94,8 +96,8 @@ const Cart = () => {
                                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                               ) : cart.quantity}
                             </div>
-                            <button 
-                              className="btn btn-outline-secondary" 
+                            <button
+                              className="btn btn-outline-secondary"
                               onClick={() => updateQuantity(cart.product_id, cart.quantity + 1)}
                               disabled={updatingItems[cart.product_id]}
                             >
@@ -105,8 +107,8 @@ const Cart = () => {
                             </button>
                           </div>
 
-                          <button 
-                            className="btn btn-outline-danger" 
+                          <button
+                            className="btn btn-outline-danger"
                             onClick={() => removeItem(cart.product_id)}
                             disabled={removingItems[cart.product_id]}
                           >
@@ -130,7 +132,7 @@ const Cart = () => {
                 <h4 className="fw-bold mb-3">Summary</h4>
                 <p><strong>Cart Items:</strong> {userCart.length}</p>
                 <p><strong>Total:</strong> <span className="text-danger fs-5">₹{totalPrice}</span></p>
-                <button 
+                <button
                   className="btn btn-danger w-100 mt-3"
                   disabled={loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)}
                 >

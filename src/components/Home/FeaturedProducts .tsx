@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchFeaturedProduct } from '../../redux/features/products/productSlice';
 import { CartItem } from '../../types/cartTypes';
+import { WishlistItem } from '../../types/wishlistTypes';
 
 interface FeaturedProductsProps {
     onAddToCart: (productId: number) => void;
+    onAddToWishlist: (productId: number) => void;
     cartItems: CartItem[];
+    wishlistItems: WishlistItem[];
 };
 
-const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, cartItems }) => {
+const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, onAddToWishlist, cartItems,wishlistItems }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { featuredProduct, loading, error } = useSelector((state: RootState) => state.products);
@@ -47,6 +50,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, cartIt
                     <div className="row g-4">
                         {featuredProduct.map((product) => {
                             const isInCart = cartItems.some(item => item.product_id === product.id);
+                            const isInWishlist= wishlistItems.some(item => item.product_id === product.id);
                             return (
                                 <div className="col-6 col-md-4 col-lg-3" key={product.id}>
                                     <div className="product-card card h-100 border-0 shadow-sm">
@@ -59,7 +63,12 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, cartIt
                                                 <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm">
                                                     Quick View
                                                 </Link>
-                                                <button className="btn btn-sm btn-outline-light">Add to Wishlist</button>
+                                                <button className="btn btn-sm btn-outline-light"
+                                                    onClick={() => onAddToWishlist(product.id)}
+                                                    disabled={isInWishlist}
+                                                >
+                                                    {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
+                                                </button>
                                             </div>
                                         </div>
 

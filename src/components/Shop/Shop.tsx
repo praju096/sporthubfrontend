@@ -8,6 +8,7 @@ import { fetchAllProducts, searchProducts } from "../../redux/features/products/
 import './Shop.css';
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/features/cart/cartSlice";
+import { addWishlist } from "../../redux/features/wishlist/wishlistSlice";
 
 const Shop: React.FC = () => {
     const { category } = useParams<{ category: string }>();
@@ -17,11 +18,11 @@ const Shop: React.FC = () => {
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
     const [sortOption, setSortOption] = useState("featured");
-    const [wishlist, setWishlist] = useState<number[]>([]);
 
     const dispatch = useDispatch<AppDispatch>();
     const { allProducts, loading, error } = useSelector((state: RootState) => state.products);
     const cartItems = useSelector((state: RootState) => state.cart.userCart);
+    const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
 
     useEffect(() => {
         if (submittedQuery.trim() !== "") {
@@ -65,9 +66,9 @@ const Shop: React.FC = () => {
         sessionStorage.setItem("selectedCategory", cat);
     };
 
-    const handleAddToWishlist = (id: number) => {
-        setWishlist(prev => prev.includes(id) ? prev : [...prev, id]);
-        alert('Added to Wishlist!');
+    const handleAddToWishlist = async (productId: number) => {
+        await dispatch(addWishlist({ product_id: productId }));
+        toast.success("Product Add In Wishlist");
     };
 
     const handleAddToCart = async (productId: number) => {
@@ -268,6 +269,7 @@ const Shop: React.FC = () => {
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
                                 {sortedProducts.map((product) => {
                                     const isInCart = cartItems.some(item => item.product_id === product.id);
+                                    const isInWishlist= wishlistItems.some(item => item.product_id === product.id);
                                     return (
                                         <div className="col" key={product.id}>
                                             <div className="card product-card h-100 shadow-sm">
@@ -283,11 +285,11 @@ const Shop: React.FC = () => {
                                                         <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm w-75 ">
                                                             Quick View
                                                         </Link>
-                                                        <button
-                                                            className="btn btn-outline-light btn-sm w-75"
+                                                        <button className="btn btn-sm btn-outline-light w-75"
                                                             onClick={() => handleAddToWishlist(product.id)}
+                                                            disabled={isInWishlist}
                                                         >
-                                                            Add to Wishlist
+                                                            {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
                                                         </button>
                                                     </div>
                                                 </div>
