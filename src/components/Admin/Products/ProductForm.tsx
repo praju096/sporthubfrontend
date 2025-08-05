@@ -10,7 +10,7 @@ interface ProductFormProps {
   editProduct?: Product | null;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel, editProduct }) => {
+const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
   const {
     register,
     handleSubmit,

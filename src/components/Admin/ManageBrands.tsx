@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ManageBrands: React.FC = () => {
+const ManageBrands = () => {
   const [brands, setBrands] = useState([
     { id: 1, name: 'Nike' },
     { id: 2, name: 'Adidas' },

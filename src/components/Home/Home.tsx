@@ -15,18 +15,31 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
   const cartItems = useSelector((state: RootState) => state.cart.userCart);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist)
 
   const handleAddToCart = async (productId: number) => {
+    if (!user) {
+      toast.warning("Please log in to add items to your cart.");
+      navigate('/login');
+      return;
+    }
     await dispatch(addToCart({ product_id: productId, quantity: 1 }));
     toast.success("Product Add In Cart");
   };
 
   const handleAddToWishlist = async (productId: number) => {
+    if (!user) {
+      toast.warning("Please log in to add items to your wishlist.");
+      navigate('/login');
+      return;
+    }
     await dispatch(addWishlist({ product_id: productId }));
     toast.success("Product Add In Wishlist");
   };

@@ -8,13 +8,13 @@ interface PaginationControlsProps {
   onNext: () => void;
 }
 
-const PaginationControls: React.FC<PaginationControlsProps> = ({
+const PaginationControls = ({
   currentPage,
   totalPages,
   page,
   onPrev,
   onNext,
-}) => {
+}: PaginationControlsProps) => {
   return (
     <div className="d-flex justify-content-between mt-3">
       <button

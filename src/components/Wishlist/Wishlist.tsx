@@ -40,15 +40,16 @@ const Wishlist = () => {
             Your wishlist is empty. <Link to="/shop">Browse Products</Link>
           </div>
         ) : (
-          <div className="row row-cols-1 row-cols-md-3 g-4">
+          <div className="row row-cols-1 row-cols-md-4 g-4">
             {wishlist.map((product) => (
               <div className="col" key={product.wishlist_id}>
-                <div className="card h-100 shadow-sm product-card">
+                <div className="card shadow-sm product-card">
                   <Link to={`/product/${product.product_id}`} className="text-decoration-none text-dark">
                     <img
                       src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
                       alt={product.product_name}
-                      className="img-fluid rounded"
+                      className="card-img-top"
+                      style={{ width: '100%', height: '250px' }}
                     />
                   </Link>
                   <div className="card-body">

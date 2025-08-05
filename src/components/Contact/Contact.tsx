@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Footer from '../Home/Footer';
 import './Contact.css';
 
-const Contact: React.FC = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

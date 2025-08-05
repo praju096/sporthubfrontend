@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../Home/Footer";
 import { Product } from "../../types/productsTypes";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,9 @@ import './Shop.css';
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import { addWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import ProductCard from "../ProductCard";
 
-const Shop: React.FC = () => {
+const Shop = () => {
     const { category } = useParams<{ category: string }>();
     const [searchQuery, setSearchQuery] = useState("");
     const [submittedQuery, setSubmittedQuery] = useState("");
@@ -19,8 +20,10 @@ const Shop: React.FC = () => {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
     const [sortOption, setSortOption] = useState("featured");
 
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { allProducts, loading, error } = useSelector((state: RootState) => state.products);
+    const { user } = useSelector((state: RootState) => state.auth);
     const cartItems = useSelector((state: RootState) => state.cart.userCart);
     const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
 
@@ -67,11 +70,21 @@ const Shop: React.FC = () => {
     };
 
     const handleAddToWishlist = async (productId: number) => {
+        if (!user) {
+            toast.warning("Please log in to add items to your wishlist.");
+            navigate('/login');
+            return;
+        }
         await dispatch(addWishlist({ product_id: productId }));
         toast.success("Product Add In Wishlist");
     };
 
     const handleAddToCart = async (productId: number) => {
+        if (!user) {
+            toast.warning("Please log in to add items to your wishlist.");
+            navigate('/login');
+            return;
+        }
         await dispatch(addToCart({ product_id: productId, quantity: 1 }));
         toast.success("Product Add In Cart");
     };
@@ -199,35 +212,35 @@ const Shop: React.FC = () => {
                                     <label className="form-label">Categories</label>
                                     <div className="list-group">
                                         <a
-                                            href="/categories"
+                                            href="/categories/men"
                                             className="list-group-item list-group-item-action"
                                             onClick={() => handleCategoryClick("men")}
                                         >
                                             Men
                                         </a>
                                         <a
-                                            href="/categories"
+                                            href="/categories/women"
                                             className="list-group-item list-group-item-action"
                                             onClick={() => handleCategoryClick("women")}
                                         >
                                             Women
                                         </a>
                                         <a
-                                            href="/categories"
+                                            href="/categories/kids"
                                             className="list-group-item list-group-item-action"
                                             onClick={() => handleCategoryClick("kids")}
                                         >
                                             Kids
                                         </a>
                                         <a
-                                            href="/categories"
+                                            href="/categories/new-arrivals"
                                             className="list-group-item list-group-item-action"
                                             onClick={() => handleCategoryClick("new-arrivals")}
                                         >
                                             New Arrivals
                                         </a>
                                         <a
-                                            href="/categories"
+                                            href="/categories/sale"
                                             className="list-group-item list-group-item-action"
                                             onClick={() => handleCategoryClick("sale")}
                                         >
@@ -269,63 +282,16 @@ const Shop: React.FC = () => {
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
                                 {sortedProducts.map((product) => {
                                     const isInCart = cartItems.some(item => item.product_id === product.id);
-                                    const isInWishlist= wishlistItems.some(item => item.product_id === product.id);
+                                    const isInWishlist = wishlistItems.some(item => item.product_id === product.id);
                                     return (
                                         <div className="col" key={product.id}>
-                                            <div className="card product-card h-100 shadow-sm">
-
-                                                <div className="product-image-wrapper">
-                                                    <img
-                                                        src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
-                                                        className="card-img-top"
-                                                        alt={product.name}
-                                                        style={{ width: '100%', height: '250px' }}
-                                                    />
-                                                    <div className="product-overlay d-flex flex-column gap-2">
-                                                        <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm w-75 ">
-                                                            Quick View
-                                                        </Link>
-                                                        <button className="btn btn-sm btn-outline-light w-75"
-                                                            onClick={() => handleAddToWishlist(product.id)}
-                                                            disabled={isInWishlist}
-                                                        >
-                                                            {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{product.name}</h5>
-                                                    <div className="d-flex justify-content-between align-items-center mb-2">
-                                                        <div>
-                                                            <span className="text-danger fw-bold">
-                                                                ₹{product.price}
-                                                            </span>
-                                                            {Number(product.original_price) > 0 && (
-                                                                <span className="text-muted text-decoration-line-through ms-2">
-                                                                    ₹{product.original_price}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <div className="text-warning">
-                                                            {'★'.repeat(Math.floor(product.rating))}
-                                                            {'☆'.repeat(5 - Math.floor(product.rating))}
-                                                            <span className="text-muted ms-2">
-                                                                ({product.rating})
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="d-grid gap-2">
-                                                        <button
-                                                            className="btn btn-outline-danger"
-                                                            onClick={() => handleAddToCart(product.id)}
-                                                            disabled={isInCart}
-                                                        >
-                                                            {isInCart ? 'Added to Cart' : 'Add to Cart'}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <ProductCard
+                                                product={product}
+                                                isInCart={isInCart}
+                                                isInWishlist={isInWishlist}
+                                                onAddToCart={handleAddToCart}
+                                                onAddToWishlist={handleAddToWishlist}
+                                            />
                                         </div>
                                     )
                                 })}
@@ -342,11 +308,6 @@ const Shop: React.FC = () => {
 
             <Footer />
 
-            {/* Font Awesome */}
-            <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            />
         </div>
     );
 };

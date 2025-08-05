@@ -30,14 +30,15 @@ const HeroCarousel = () => {
                         className="d-block w-100"
                         alt="Athlete running on track with sunset background"
                         style={{
-                            height: "600px",
+                            height: "auto",
+                            maxHeight: "600px",
                             objectFit: "cover",
                         }}
                     />
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="display-3 fw-bold">LIMITLESS PERFORMANCE</h1>
-                        <p className="lead">Elevate your game with our latest collection</p>
-                        <Link to="#" className="btn btn-danger btn-lg mt-3">
+                    <div className="carousel-caption">
+                        <h1 className="display-4 fw-bold mb-3 mb-md-2">LIMITLESS PERFORMANCE</h1>
+                        <p className="lead d-none d-sm-block mb-4 mb-md-3">Elevate your game with our latest collection</p>
+                        <Link to="#" className="btn btn-danger btn-lg">
                             SHOP NOW
                         </Link>
                     </div>
@@ -48,14 +49,15 @@ const HeroCarousel = () => {
                         className="d-block w-100"
                         alt="Basketball player dunking in an arena"
                         style={{
-                            height: "600px",
+                            height: "auto",
+                            maxHeight: "600px",
                             objectFit: "cover",
                         }}
                     />
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="display-3 fw-bold">TEAM SPIRIT</h1>
-                        <p className="lead">Custom kits for your entire squad</p>
-                        <Link to="#" className="btn btn-primary btn-lg mt-3">
+                    <div className="carousel-caption">
+                        <h1 className="display-4 fw-bold mb-3 mb-md-2">TEAM SPIRIT</h1>
+                        <p className="lead d-none d-sm-block mb-4 mb-md-3">Custom kits for your entire squad</p>
+                        <Link to="#" className="btn btn-primary btn-lg">
                             EXPLORE
                         </Link>
                     </div>
@@ -66,14 +68,15 @@ const HeroCarousel = () => {
                         className="d-block w-100"
                         alt="Group of athletes training together"
                         style={{
-                            height: "600px",
+                            height: "auto",
+                            maxHeight: "600px",
                             objectFit: "cover",
                         }}
                     />
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="display-3 fw-bold">GEAR UP FOR GREATNESS</h1>
-                        <p className="lead">Premium sports equipment for champions</p>
-                        <Link to="#" className="btn btn-success btn-lg mt-3">
+                    <div className="carousel-caption">
+                        <h1 className="display-4 fw-bold mb-3 mb-md-2">GEAR UP FOR GREATNESS</h1>
+                        <p className="lead d-none d-sm-block mb-4 mb-md-3">Premium sports equipment for champions</p>
+                        <Link to="#" className="btn btn-success btn-lg">
                             GET STARTED
                         </Link>
                     </div>
@@ -85,7 +88,8 @@ const HeroCarousel = () => {
                 data-bs-target="#heroCarousel"
                 data-bs-slide="prev"
             >
-                <span className="carousel-control-prev-icon"></span>
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
             </button>
             <button
                 className="carousel-control-next"
@@ -93,7 +97,8 @@ const HeroCarousel = () => {
                 data-bs-target="#heroCarousel"
                 data-bs-slide="next"
             >
-                <span className="carousel-control-next-icon"></span>
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
             </button>
         </div>
     );

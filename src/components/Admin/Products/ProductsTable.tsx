@@ -8,7 +8,7 @@ interface ProductsTableProps {
   loading: boolean;
 }
 
-const ProductsTable: React.FC<ProductsTableProps> = ({ products, onEdit, onDelete, loading }) => {
+const ProductsTable = ({ products, onEdit, onDelete, loading }:ProductsTableProps) => {
   if (loading) {
     return (
       <div className="text-center my-5">

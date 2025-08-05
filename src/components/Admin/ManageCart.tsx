@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdminCart } from '../../redux/features/cart/cartSlice';
 
-const ManageCart: React.FC = () => {
+const ManageCart = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { adminCart, loading, error } = useSelector(
     (state: RootState) => state.cart
@@ -40,7 +40,7 @@ const ManageCart: React.FC = () => {
       <div className="card-header bg-white py-3">
         <h3 className="mb-0 d-flex align-items-center">
           <i className="fas fa-shopping-cart me-2 text-danger"></i>
-          User Carts Management
+          Carts Management
         </h3>
       </div>
       

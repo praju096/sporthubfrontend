@@ -135,10 +135,10 @@ const Login = () => {
                     {loading ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
-                        Signing in...
+                        Logging in...
                       </>
                     ) : (
-                      "Sign In"
+                      "Login"
                     )}
                   </button>
 

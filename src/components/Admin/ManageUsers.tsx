@@ -8,7 +8,7 @@ import {
 import { toast } from "react-toastify";
 import { AppDispatch, RootState } from "../../store";
 
-const ManageUsers: React.FC = () => {
+const ManageUsers = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { users, loading, error } = useSelector(
     (state: RootState) => state.users

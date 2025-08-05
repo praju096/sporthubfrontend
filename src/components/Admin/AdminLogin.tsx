@@ -9,7 +9,7 @@ import { LoginUser } from '../../types/authTypes';
 import { AppDispatch, RootState } from '../../store';
 import { adminSchema } from '../../types/validation/adminSchema';
 
-const AdminLogin: React.FC = () => {
+const AdminLogin = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);

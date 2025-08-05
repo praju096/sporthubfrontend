@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { getProductById } from "../redux/features/products/productSlice";
 import { toast } from "react-toastify";
 import { addToCart } from "../redux/features/cart/cartSlice";
+import { addWishlist } from "../redux/features/wishlist/wishlistSlice";
 
 const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
     const productId = Number(id);
@@ -15,7 +17,9 @@ const ProductDetail = () => {
     const { productDetail, loading, error } = useSelector(
         (state: RootState) => state.products
     );
+    const { user } = useSelector((state: RootState) => state.auth);
     const cartItems = useSelector((state: RootState) => state.cart.userCart);
+    const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
 
     useEffect(() => {
         if (productId) dispatch(getProductById(productId));
@@ -39,11 +43,26 @@ const ProductDetail = () => {
     if (!productDetail) return null;
 
     const handleAddToCart = async (productId: number) => {
+        if (!user) {
+            toast.warning("Please log in to add items to your wishlist.");
+            navigate('/login');
+            return;
+        }
         await dispatch(addToCart({ product_id: productId, quantity: 1 }));
         toast.success("Product Add In Cart");
     };
+    const handleAddToWishlist = async (productId: number) => {
+        if (!user) {
+            toast.warning("Please log in to add items to your wishlist.");
+            navigate('/login');
+            return;
+        }
+        await dispatch(addWishlist({ product_id: productId }));
+        toast.success("Product Add In Wishlist");
+    };
 
     const isInCart = cartItems.some(item => item.product_id === productDetail.id);
+    const isInWishlist = wishlistItems.some(item => item.product_id === productDetail.id);
 
     return (
         <div className="container py-5 mt-5">
@@ -104,11 +123,17 @@ const ProductDetail = () => {
                     )}
 
                     <div className="d-flex gap-3">
-                        <button className="btn btn-danger btn-lg px-4 shadow-sm" onClick={() => handleAddToCart(productDetail.id)} disabled={isInCart}>
+                        <button className="btn btn-danger btn-lg px-4 shadow-sm"
+                            onClick={() => handleAddToCart(productDetail.id)}
+                            disabled={isInCart}
+                        >
                             <i className="fas fa-shopping-cart me-2"></i>{isInCart ? 'Added to Cart' : 'Add to Cart'}
                         </button>
-                        <button className="btn btn-outline-dark btn-lg px-4 shadow-sm">
-                            <i className="fas fa-heart me-2"></i>Add to Wishlist
+                        <button className="btn btn-outline-dark btn-lg px-4 shadow-sm"
+                            onClick={() => handleAddToWishlist(productDetail.id)}
+                            disabled={isInWishlist}
+                        >
+                            <i className="fas fa-heart me-2"></i>{isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
                         </button>
                     </div>
                 </div>

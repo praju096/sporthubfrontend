@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ManageCategories: React.FC = () => {
+const ManageCategories = () => {
   const [categories, setCategories] = useState([
     { id: 1, name: 'Men' },
     { id: 2, name: 'Women' },

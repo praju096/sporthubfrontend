@@ -1,8 +1,13 @@
 import API from './axios';
-import { MoveToCartRequest, WishlistItem } from '../types/wishlistTypes';
+import { AdminWishlistItem, MoveToCartRequest, WishlistItem } from '../types/wishlistTypes';
 
 const getWishlist = async (): Promise<WishlistItem[]> => {
   const res = await API.get(`/api/wishlist`);
+  return res.data.data;
+};
+
+const fetchAdminWishlist = async (): Promise<AdminWishlistItem[]> => {
+  const res = await API.get('/api/admin/wishlists');
   return res.data.data;
 };
 
@@ -23,6 +28,7 @@ const moveToCart = async (data: MoveToCartRequest) => {
 
 const wishlistApi = {
     getWishlistByUser: getWishlist,
+    getAdminWishlist:fetchAdminWishlist,
     addToWishlist: add,
     removeFromWishlist: remove,
     moveToCartFromWishlist: moveToCart,

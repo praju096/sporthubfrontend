@@ -1,16 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { MoveToCartRequest, WishlistItem } from "../../../types/wishlistTypes";
+import { AdminWishlistItem, MoveToCartRequest, WishlistItem } from "../../../types/wishlistTypes";
 import wishlistApi from "../../../services/wishlistApi";
 import { userLogout } from "../authSlice";
 
 interface WishlistState {
     wishlist: WishlistItem[];
+    adminWishlist: AdminWishlistItem[];
     loading: boolean;
     error: string | null;
 }
 
 const initialState: WishlistState = {
     wishlist: [],
+    adminWishlist: [],
     loading: false,
     error: null,
 };
@@ -20,6 +22,18 @@ export const fetchWishlist = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return await wishlistApi.getWishlistByUser();
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.message || err.message);
+        }
+    }
+);
+
+export const fetchAdminWishlist = createAsyncThunk<AdminWishlistItem[]>(
+    "cart/fetchAdminWishlist",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await wishlistApi.getAdminWishlist();
+            return response;
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || err.message);
         }
@@ -88,6 +102,20 @@ const wishlistSlice = createSlice({
             })
             .addCase(userLogout.fulfilled, (state) => {
                 state.wishlist = [];
+            })
+
+            // Fetch Wishlist user
+            .addCase(fetchAdminWishlist.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAdminWishlist.fulfilled, (state, action) => {
+                state.loading = false;
+                state.adminWishlist = action.payload;
+            })
+            .addCase(fetchAdminWishlist.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             })
 
             // Add Wishlist

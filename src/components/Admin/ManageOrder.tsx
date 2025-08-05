@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ManageOrders: React.FC = () => {
+const ManageOrders = () => {
   const [orders, setOrders] = useState([
     { id: 1, customer: 'John Doe', total: 150, status: 'Delivered' },
     { id: 2, customer: 'Jane Smith', total: 80, status: 'Pending' },

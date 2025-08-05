@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   return (
     <div className="card shadow rounded-4 p-4">
       <h3 className="mb-4"><i className={`fas fa-chart-pie text-danger`}></i> Dashboard Overview</h3>
@@ -27,6 +27,18 @@ const Dashboard: React.FC = () => {
           <div className="bg-black text-white p-3 rounded-4 shadow text-center">
             <h5><i className={`fas fa-clipboard`}></i> Messages</h5>
             <p className="fs-4">24</p>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="bg-black text-white p-3 rounded-4 shadow text-center">
+            <h5><i className={`fas fa-archive `}></i> Products in cart</h5>
+            <p className="fs-4">120</p>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="bg-black text-white p-3 rounded-4 shadow text-center">
+            <h5><i className={`fas fa-archive `}></i> Products in wishlist</h5>
+            <p className="fs-4">120</p>
           </div>
         </div>
       </div>

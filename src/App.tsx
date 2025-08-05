@@ -36,7 +36,7 @@ import { fetchUserCart } from './redux/features/cart/cartSlice';
 import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
 
 
-const LayoutWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const LayoutWrapper = ({ children }:{ children: React.ReactNode }) => {
   const location = useLocation();
   const hideNavbar = location.pathname.includes("/admin") || location.pathname === "/welcome";
 

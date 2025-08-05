@@ -66,7 +66,7 @@ const statusColorMap = {
   Cancelled: 'danger',
 };
 
-const Order: React.FC = () => {
+const Order = () => {
   return (<>
     <div className="container py-5 mt-5">
       <h2 className="mb-4 fw-bold">Your Orders

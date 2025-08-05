@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const WelcomeScreen: React.FC = () => {
+const WelcomeScreen = () => {
   const role = useSelector((state: RootState) => state.auth.user?.role);
   const name = useSelector((state: RootState) => state.auth.user?.fullname);
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContactMessages: React.FC = () => {
+const ContactMessages = () => {
   const messages = [
     { id: 1, name: 'John Doe', email: 'john@example.com', message: 'I love your products!' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', message: 'Do you offer discounts for bulk orders?' },

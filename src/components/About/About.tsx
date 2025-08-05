@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../Home/Footer';
 import './About.css';
 
-const About: React.FC = () => {
+const About = () => {
   return (
     <div className="about-page">
       {/* Hero Section */}
