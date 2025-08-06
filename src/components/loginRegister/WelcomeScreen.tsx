@@ -44,7 +44,6 @@ const WelcomeScreen = () => {
         </div>
       </div>
 
-      {/* Custom Minimal CSS */}
       <style>{`
         .welcome-screen {
           background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #0d0d0d);

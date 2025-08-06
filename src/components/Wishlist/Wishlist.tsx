@@ -44,7 +44,7 @@ const Wishlist = () => {
             {wishlist.map((product) => (
               <div className="col" key={product.wishlist_id}>
                 <div className="card shadow-sm product-card">
-                  <Link to={`/product/${product.product_id}`} className="text-decoration-none text-dark">
+                  <Link to={`/product/${product.product_id}`}>
                     <img
                       src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
                       alt={product.product_name}
@@ -77,6 +77,7 @@ const Wishlist = () => {
           .product-card {
             border-radius: 15px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
           }
           .product-card:hover {
             transform: translateY(-5px);

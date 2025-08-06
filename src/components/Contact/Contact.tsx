@@ -33,7 +33,6 @@ const Contact = () => {
 
   return (
     <div className="contact-page">
-      {/* Hero Section */}
       <div className="contact-hero">
         <div className="container">
           <h1>Contact Us</h1>
@@ -43,7 +42,6 @@ const Contact = () => {
 
       <div className="container">
         <div className="contact-grid">
-          {/* Contact Form */}
           <div className="contact-form-section">
             <h2>Send us a message</h2>
             <form onSubmit={handleSubmit}>
@@ -93,7 +91,6 @@ const Contact = () => {
             </form>
           </div>
 
-          {/* Contact Info */}
           <div className="contact-info-section">
             <h2>Get in touch</h2>
             <div className="contact-info-card">
@@ -133,7 +130,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Map Section */}
         <div className="map-section">
           <iframe
             title="Sport Hub Location"

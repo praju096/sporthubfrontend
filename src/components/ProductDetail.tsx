@@ -66,7 +66,7 @@ const ProductDetail = () => {
 
     return (
         <div className="container py-5 mt-5">
-            <div className="row g-5 align-items-center">
+            <div className="row g-4 align-items-center">
                 <div className="col-md-6 text-center">
                     <div className="p-3 bg-light rounded-4 shadow-lg">
                         <img

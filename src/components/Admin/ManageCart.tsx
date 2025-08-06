@@ -43,17 +43,17 @@ const ManageCart = () => {
           Carts Management
         </h3>
       </div>
-      
+
       <div className="card-body p-0">
         <div className="list-group list-group-flush">
           {Object.entries(groupedCarts).map(([userId, items]) => {
             const userIdNum = Number(userId);
             const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+
             return (
               <div key={userId} className="list-group-item border-0 p-0">
-                <div 
-                  className="d-flex justify-content-between align-items-center p-3 cursor-pointer"
+                <div
+                  className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-center align-items-md-center p-3 p-md-3 cursor-pointer bg-body-tertiary"
                   onClick={() => toggleUser(userIdNum)}
                 >
                   <div>
@@ -69,15 +69,15 @@ const ManageCart = () => {
                     <i className={`fas fa-chevron-${expandedUsers[userIdNum] ? 'up' : 'down'} text-muted`}></i>
                   </div>
                 </div>
-                
+
                 {expandedUsers[userIdNum] && (
                   <div className="bg-light p-3 border-top">
                     <div className="table-responsive">
                       <table className="table table-sm align-middle mb-0">
                         <thead className="table-dark">
                           <tr>
-                            <th className="border-0">Product</th>
-                            <th className="border-0" style={{width: '70px'}}>Qty</th>
+                            <th className="border-0 ">Product</th>
+                            <th className="border-0" style={{ width: '70px' }}>Qty</th>
                             <th className="border-0 text-end">Amount</th>
                           </tr>
                         </thead>
@@ -86,13 +86,15 @@ const ManageCart = () => {
                             <tr key={`${item.cart_id}-${item.product_id}`}>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <img 
-                                    src={`${process.env.REACT_APP_API_URL}${item.image_url}`}
-                                    alt={item.product_name}
-                                    className="rounded me-2"
-                                    style={{ width: "40px", height: "40px", objectFit: "cover" }}
-                                  />
-                                  <div className="text-truncate" style={{maxWidth: '200px'}}>
+                                  <div className="flex-shrink-0 me-2">
+                                    <img
+                                      src={`${process.env.REACT_APP_API_URL}${item.image_url}`}
+                                      alt={item.product_name}
+                                      className="rounded me-2"
+                                      style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                                    />
+                                  </div>
+                                  <div className="flex-grow-1 text-truncate">
                                     {item.product_name}
                                   </div>
                                 </div>

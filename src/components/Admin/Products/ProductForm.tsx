@@ -119,7 +119,7 @@ const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
           <label className="form-label">Current Image</label>
           <br />
           <img
-            src={`http://localhost:5000${editProduct.image_url}`}
+            src={`${process.env.REACT_APP_API_URL}${editProduct.image_url}`}
             alt="Product"
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
           />

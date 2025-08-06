@@ -51,7 +51,6 @@ const Login = () => {
           <div className="col-md-8 col-lg-6 col-xl-5">
             <div className="card border-0 shadow-sm rounded-4" style={{ marginTop: '70px' }}>
               <div className="card-body p-4 p-md-5">
-                {/* Header */}
                 <div className="text-center mb-5">
                   <h2 className="text-danger fw-bold mb-3">WELCOME BACK</h2>
                   <p className="text-muted mb-0">
@@ -59,9 +58,7 @@ const Login = () => {
                   </p>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  {/* Email Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Email</label>
                     <div className="input-group">
@@ -81,7 +78,6 @@ const Login = () => {
                     )}
                   </div>
 
-                  {/* Password Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Password</label>
                     <div className="input-group">
@@ -109,7 +105,6 @@ const Login = () => {
                     )}
                   </div>
 
-                  {/* Remember Me & Forgot Password */}
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <div className="form-check">
                       <input
@@ -126,7 +121,6 @@ const Login = () => {
                     </Link>
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     className="btn btn-danger w-100 py-2 mb-3 fw-bold"
@@ -142,7 +136,6 @@ const Login = () => {
                     )}
                   </button>
 
-                  {/* Sign Up Link */}
                   <div className="text-center">
                     <p className="text-muted mb-0">
                       Don't have an account?{" "}
@@ -152,7 +145,6 @@ const Login = () => {
                     </p>
                   </div>
 
-                  {/* Divider */}
                   <div className="position-relative my-4">
                     <hr className="my-4" />
                     <div className="position-absolute top-50 start-50 translate-middle bg-white px-3 small text-muted">
@@ -160,7 +152,6 @@ const Login = () => {
                     </div>
                   </div>
 
-                  {/* Social Login */}
                   <div className="d-flex gap-3">
                     <button
                       type="button"

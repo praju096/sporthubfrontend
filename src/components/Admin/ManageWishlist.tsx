@@ -52,7 +52,7 @@ const ManageWishlist = () => {
             return (
               <div key={userId} className="list-group-item border-0 p-0">
                 <div
-                  className="d-flex justify-content-between align-items-center p-3 cursor-pointer"
+                  className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-center align-items-md-center p-3 p-md-3 cursor-pointer bg-body-tertiary"
                   onClick={() => toggleUser(userIdNum)}
                 >
                   <div>
@@ -84,13 +84,15 @@ const ManageWishlist = () => {
                             <tr key={`${item.wishlist_id}-${item.product_id}`}>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <img
-                                    src={`${process.env.REACT_APP_API_URL}${item.image_url}`}
-                                    alt={item.product_name}
-                                    className="rounded me-2"
-                                    style={{ width: "40px", height: "40px", objectFit: "cover" }}
-                                  />
-                                  <div className="text-truncate" style={{ maxWidth: '200px' }}>
+                                  <div className="flex-shrink-0 me-2">
+                                    <img
+                                      src={`${process.env.REACT_APP_API_URL}${item.image_url}`}
+                                      alt={item.product_name}
+                                      className="rounded me-2"
+                                      style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                                    />
+                                  </div>
+                                  <div className="flex-grow-1 text-truncate">
                                     {item.product_name}
                                   </div>
                                 </div>

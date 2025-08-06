@@ -1,8 +1,7 @@
-// Image Constants
 const IMAGES = {
   // Hero Carousel Images
   HERO: {
-    SLIDE1: "/images/hero/limmitless.png",
+    SLIDE1: "/images/hero/limmitless3.jpg",
     SLIDE2: "/images/hero/teamsprit.jpg",
     SLIDE3: "/images/hero/gearup.png"
   },

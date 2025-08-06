@@ -12,7 +12,7 @@ const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `nav-link ${isActive ? 'active fw-bold border-bottom border-danger border-2' : ''}`;
+    `nav-link text-center ${isActive ? 'active fw-bold border-bottom border-danger border-2' : ''}`;
 
   const closeNavbar = () => {
     setIsExpanded(false);
@@ -22,6 +22,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container">
         <NavLink className="navbar-brand" to="/" onClick={closeNavbar}>
+          {/* <img src="/logo2.png" alt="SportHub Logo"/> */}
           <span className="text-danger">SPORT</span>HUB
         </NavLink>
 
@@ -38,7 +39,7 @@ const Navbar = () => {
           ) : (
             <AvatarDropdown />
           )}
-          
+
           <button
             className="navbar-toggler ms-2"
             type="button"
@@ -104,7 +105,7 @@ const Navbar = () => {
               </>
             )}
           </ul>
-          
+
           <div className="d-none d-lg-flex ms-3">
             {!user ? (
               <>

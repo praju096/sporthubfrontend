@@ -64,28 +64,32 @@ const AdminLogin = () => {
           </div>
 
           <div className="mb-4">
-            <div className="input-group">
-              <span className="input-group-text">
+            <div className="input-group has-validation">
+              <span className="input-group-text bg-white">
                 <i className="fas fa-lock"></i>
               </span>
               <input
+                id="password"
                 type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
                 {...register("password")}
-                className={`form-control rounded-end ${errors.password && touchedFields.password ? "is-invalid" : ""
-                  }`}
-                placeholder="Password"
+                className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                placeholder="••••••••"
               />
-              <span
-                className="position-absolute top-50 end-0 translate-middle-y me-3 bg-white"
-                style={{ cursor: "pointer", zIndex: 10 }}
-                onClick={() => setShowPassword((prev: boolean) => !prev)}
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                <i className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}></i>
-              </span>
+                <i className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}></i>
+              </button>
+              {errors.password && (
+                <div className="invalid-feedback">
+                  {errors.password.message}
+                </div>
+              )}
             </div>
-            {errors.password && (<div className="invalid-feedback d-block">
-              {errors.password?.message}
-            </div>)}
           </div>
 
           <button

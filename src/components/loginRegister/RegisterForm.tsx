@@ -47,7 +47,6 @@ const RegisterForm = () => {
           <div className="col-md-8 col-lg-6 col-xl-5">
             <div className="card border-0 shadow-sm rounded-4" style={{ marginTop: '70px' }}>
               <div className="card-body p-4 p-md-5">
-                {/* Header */}
                 <div className="text-center mb-5">
                   <h2 className="text-danger fw-bold mb-3">JOIN OUR COMMUNITY</h2>
                   <p className="text-muted mb-0">
@@ -55,9 +54,7 @@ const RegisterForm = () => {
                   </p>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  {/* Full Name Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Full Name</label>
                     <div className="input-group">
@@ -77,7 +74,6 @@ const RegisterForm = () => {
                     )}
                   </div>
 
-                  {/* Email Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Email</label>
                     <div className="input-group">
@@ -97,7 +93,6 @@ const RegisterForm = () => {
                     )}
                   </div>
 
-                  {/* Password Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Password</label>
                     <div className="input-group">
@@ -125,7 +120,6 @@ const RegisterForm = () => {
                     )}
                   </div>
 
-                  {/* Confirm Password Field */}
                   <div className="mb-4">
                     <label className="form-label text-dark">Confirm Password</label>
                     <div className="input-group">
@@ -153,7 +147,6 @@ const RegisterForm = () => {
                     )}
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     className="btn btn-danger w-100 py-2 mb-3 fw-bold"
@@ -169,7 +162,6 @@ const RegisterForm = () => {
                     )}
                   </button>
 
-                  {/* Login Link */}
                   <div className="text-center">
                     <p className="text-muted mb-0">
                       Already have an account?{" "}
@@ -179,7 +171,6 @@ const RegisterForm = () => {
                     </p>
                   </div>
 
-                  {/* Divider */}
                   <div className="position-relative my-4">
                     <hr className="my-4" />
                     <div className="position-absolute top-50 start-50 translate-middle bg-white px-3 small text-muted">
@@ -187,7 +178,6 @@ const RegisterForm = () => {
                     </div>
                   </div>
 
-                  {/* Social Login */}
                   <div className="d-flex gap-3">
                     <button
                       type="button"

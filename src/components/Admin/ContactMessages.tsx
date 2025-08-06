@@ -9,26 +9,28 @@ const ContactMessages = () => {
   return (
     <div className="card shadow rounded-4 p-4">
       <h3 className="mb-4"><i className={`fas fa-phone`}></i> Contact Messages</h3>
-      <table className="table table-bordered table-hover">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {messages.map(msg => (
-            <tr key={msg.id}>
-              <td>{msg.id}</td>
-              <td>{msg.name}</td>
-              <td>{msg.email}</td>
-              <td>{msg.message}</td>
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {messages.map(msg => (
+              <tr key={msg.id}>
+                <td>{msg.id}</td>
+                <td>{msg.name}</td>
+                <td>{msg.email}</td>
+                <td>{msg.message}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
