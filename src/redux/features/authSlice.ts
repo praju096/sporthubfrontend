@@ -1,4 +1,3 @@
-// redux/authSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RegisterUser, LoginUser, AuthResponse } from '../../types/authTypes';
 import userLoginRegisterApi from "../../services/userLoginRegisterApi";
