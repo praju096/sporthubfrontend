@@ -34,6 +34,7 @@ import { fetchCurrentUser } from './redux/features/authSlice';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import { fetchUserCart } from './redux/features/cart/cartSlice';
 import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
+import CheckoutPage from './components/Checkout/Checkout';
 
 
 const LayoutWrapper = ({ children }:{ children: React.ReactNode }) => {
@@ -83,7 +84,9 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path='/order' element={<Order />} />
+            <Route path='/checkout' element={<CheckoutPage />} />
           </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/welcome" element={<WelcomeScreen />} />

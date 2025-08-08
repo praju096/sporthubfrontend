@@ -132,15 +132,17 @@ const Cart = () => {
                 <h4 className="fw-bold mb-3">Summary</h4>
                 <p><strong>Cart Items:</strong> {userCart.length}</p>
                 <p><strong>Total:</strong> <span className="text-danger fs-5">₹{totalPrice}</span></p>
-                <button
-                  className="btn btn-danger w-100 mt-3"
-                  disabled={loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)}
-                >
-                  {(loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)) ? (
-                    <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                  ) : null}
-                  Proceed to Checkout
-                </button>
+                <Link to={'/checkout'}>
+                  <button
+                    className="btn btn-danger w-100 mt-3"
+                    disabled={loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)}
+                  >
+                    {(loading || Object.values(updatingItems).some(Boolean) || Object.values(removingItems).some(Boolean)) ? (
+                      <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                    ) : null}
+                    Proceed to Checkout
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
