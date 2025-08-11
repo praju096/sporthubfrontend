@@ -25,7 +25,7 @@ import ManageCart from './components/Admin/ManageCart';
 import ManageUsers from './components/Admin/ManageUsers';
 import ContactMessages from './components/Admin/ContactMessages';
 import ManageBrands from './components/Admin/ManageBrands';
-import Order from './components/Navbar/Order';
+// import Order from './components/Navbar/Order';
 import PrivateRoute from './PrivateRoutes';
 import ProductDetail from './components/ProductDetail';
 import { useDispatch } from 'react-redux';
@@ -34,7 +34,9 @@ import { fetchCurrentUser } from './redux/features/authSlice';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import { fetchUserCart } from './redux/features/cart/cartSlice';
 import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
-import CheckoutPage from './components/Checkout/Checkout';
+import Checkout from './components/Checkout/Checkout';
+import OrdersPage from './components/Navbar/OrdersPage';
+import OrderDetails from './components/Navbar/OrderDetails';
 
 
 const LayoutWrapper = ({ children }:{ children: React.ReactNode }) => {
@@ -83,8 +85,10 @@ const App = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            <Route path='/order' element={<Order />} />
-            <Route path='/checkout' element={<CheckoutPage />} />
+            {/* <Route path='/order' element={<Order />} /> */}
+            <Route path='/orders' element={<OrdersPage />} />
+            <Route path='/orders/:id' element={<OrderDetails />} />
+            <Route path='/checkout' element={<Checkout />} />
           </Route>
 
           <Route path="/login" element={<Login />} />

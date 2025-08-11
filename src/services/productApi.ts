@@ -19,7 +19,7 @@ const toFormData = (data: ProductFormData): FormData => {
     const value = data[key as keyof ProductFormData];
 
     if (key === "image_url" && value instanceof FileList && value.length > 0) {
-      formData.append("image", value[0]); 
+      formData.append("image", value[0]);
     } else if (Array.isArray(value)) {
       value.forEach((v) => formData.append(`${key}[]`, v));
     } else if (value !== null && value !== undefined) {
@@ -29,7 +29,7 @@ const toFormData = (data: ProductFormData): FormData => {
   return formData;
 };
 
-const fetchPaginatedProducts = async (page: number = 1, limit: number = 10):Promise<PaginatedProductResponse>=> {
+const fetchPaginatedProducts = async (page: number = 1, limit: number = 10): Promise<PaginatedProductResponse> => {
   const res = await API.get(`/api/products/paginated?page=${page}&limit=${limit}`);
   return res.data.data;
 }
@@ -73,7 +73,7 @@ const getFeaturedProducts = async (): Promise<Product[]> => {
   return res.data.data;
 };
 
-const getById = async(id:number): Promise<Product[]> =>{
+const getById = async (id: number): Promise<Product[]> => {
   const res = await API.get(`/api/products/${id}`);
   return res.data.data;
 }

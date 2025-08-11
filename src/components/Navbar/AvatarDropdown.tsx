@@ -38,7 +38,7 @@ const AvatarDropdown = () => {
         </li>
         <li><hr className="dropdown-divider mx-3" /></li>
         <li>
-          <Link className="dropdown-item d-flex align-items-center justify-content-center gap-2 py-2 btn btn-outline-danger" to="/order">
+          <Link className="dropdown-item d-flex align-items-center justify-content-center gap-2 py-2 btn btn-outline-danger" to="/orders">
             <i className="bi bi-bag"></i>
             <span>My Orders</span>
           </Link>
