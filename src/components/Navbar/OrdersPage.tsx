@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
-import { fetchOrders } from '../../redux/features/order/orderSlice';
+import { fetchOrdersUser } from '../../redux/features/order/orderSlice';
 
 const OrdersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { orders, loading } = useSelector((s: RootState) => s.order as any);
 
   useEffect(() => { 
-    dispatch(fetchOrders()); 
+    dispatch(fetchOrdersUser()); 
   }, [dispatch]);
 
   if (loading) {

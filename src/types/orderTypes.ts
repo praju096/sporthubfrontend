@@ -10,3 +10,25 @@ export interface OrderItem {
     quantity: number;
     price: number;
 }
+export type OrderStatus =
+    | 'pending'
+    | 'shipped'
+    | 'delivered'
+    | 'confirmed';
+
+export interface AdminOrderItem {
+    order_id: number;
+    user_id: number;
+    full_name: string;
+    email: string;
+    total: number;
+    status: OrderStatus;
+    payment_method: string;
+    shipping_method: string;
+    phone: string;
+    address_line: string;
+    city: string;
+    state: string;
+    pincode: number;
+    country: string;
+}

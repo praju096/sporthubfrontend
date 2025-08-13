@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { orderDetail } from "../../../types/orderTypes";
+import { AdminOrderItem, orderDetail, OrderStatus } from "../../../types/orderTypes";
 import orderApi from "../../../services/orderApi";
 
 
 interface OrderState {
   orders: orderDetail[];
   currentOrder: orderDetail | null;
+  adminOrders: AdminOrderItem[];
   loading: boolean;
   error: string | null;
 }
@@ -13,12 +14,13 @@ interface OrderState {
 const initialState: OrderState = {
   orders: [],
   currentOrder: null,
+  adminOrders: [],
   loading: false,
   error: null,
 };
 
 export const userPlaceOrder = createAsyncThunk(
-  "order/place",
+  "order/userPlaceOrder",
   async (
     payload: { userdetail_id: number; payment_method: string; shipping_method: string },
     { rejectWithValue }
@@ -33,8 +35,8 @@ export const userPlaceOrder = createAsyncThunk(
 );
 
 // Fetch All Orders
-export const fetchOrders = createAsyncThunk(
-  "order/fetchAll",
+export const fetchOrdersUser = createAsyncThunk(
+  "order/fetchOrdersUser",
   async (_, { rejectWithValue }) => {
     try {
       const res = await orderApi.getOrdersByUser();
@@ -47,13 +49,38 @@ export const fetchOrders = createAsyncThunk(
 
 // Fetch Order By ID
 export const fetchOrderById = createAsyncThunk(
-  "order/fetchById",
+  "order/fetchOrderById",
   async (id: number, { rejectWithValue }) => {
     try {
       const res = await orderApi.getOrdersById(id);
       return res;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch order details");
+    }
+  }
+);
+
+export const fetchOrdersAdmin = createAsyncThunk(
+  "order/fetchOrdersAdmin",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await orderApi.getAllOrders();
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch orders");
+    }
+  }
+);
+
+export const updateAdminStatus = createAsyncThunk(
+  "users/updateAdminStatus",
+  async ({ id, status }: { id: number; status: OrderStatus }, { rejectWithValue }) => {
+    try {
+      const res = await orderApi.getUpdateStatus(id, status);
+      if (res.status === "success") return { id, status };
+      return rejectWithValue(res.message);
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to update role");
     }
   }
 );
@@ -78,15 +105,29 @@ const orderSlice = createSlice({
       })
 
       // Fetch Orders
-      .addCase(fetchOrders.pending, (state) => {
+      .addCase(fetchOrdersUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchOrders.fulfilled, (state, action) => {
+      .addCase(fetchOrdersUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload || [];
+        state.orders = action.payload;
       })
-      .addCase(fetchOrders.rejected, (state, action) => {
+      .addCase(fetchOrdersUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // Fetch Orders Admin
+      .addCase(fetchOrdersAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrdersAdmin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.adminOrders = action.payload;
+      })
+      .addCase(fetchOrdersAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
@@ -103,6 +144,13 @@ const orderSlice = createSlice({
       .addCase(fetchOrderById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      // Update status
+      .addCase(updateAdminStatus.fulfilled, (state, action) => {
+        const { id, status } = action.payload;
+        const adminOrder = state.adminOrders.find((u) => u.order_id === id);
+        if (adminOrder) adminOrder.status = status;
       });
   },
 });

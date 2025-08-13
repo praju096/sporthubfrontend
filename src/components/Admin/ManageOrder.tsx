@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { fetchOrdersAdmin, updateAdminStatus } from '../../redux/features/order/orderSlice';
+import { toast } from 'react-toastify';
+import { OrderStatus } from '../../types/orderTypes';
 
 const ManageOrders = () => {
-  const [orders, setOrders] = useState([
-    { id: 1, customer: 'John Doe', total: 150, status: 'Delivered' },
-    { id: 2, customer: 'Jane Smith', total: 80, status: 'Pending' },
-  ]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { adminOrders, loading, error } = useSelector(
+    (state: RootState) => state.order
+  );
 
-  const updateStatus = (id: number, newStatus: string) => {
-    setOrders(prev =>
-      prev.map(order =>
-        order.id === id ? { ...order, status: newStatus } : order
-      )
-    );
+  useEffect(() => {
+    dispatch(fetchOrdersAdmin());
+  }, [dispatch]);
+
+  const updateStatus = (id: number, status: OrderStatus) => {
+    dispatch(updateAdminStatus({ id, status }));
+    toast.success("Status updated successfully");
   };
+
+  if (loading) return <div className="d-flex justify-content-center my-5"><div className="spinner-border text-primary" role="status"></div></div>;
+  if (error) return <p className="alert alert-danger mt-3">{error}</p>;
 
   return (
     <div className="card shadow rounded-4 p-4">
@@ -21,33 +30,48 @@ const ManageOrders = () => {
         <table className="table table-striped table-hover">
           <thead className="table-dark">
             <tr>
-              <th>ID</th>
-              <th>Customer</th>
+              <th>Order_id</th>
+              <th>User_id</th>
+              <th>Full Name</th>
+              <th>Email</th>
               <th>Total</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Payment Method</th>
+              <th>Shipping Method</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Pin code</th>
+              <th>Country</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map(order => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.customer}</td>
-                <td>${order.total}</td>
+            {adminOrders.map(order => (
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.user_id}</td>
+                <td>{order.full_name}</td>
+                <td>{order.email}</td>
+                <td>{order.total}</td>
                 <td>
                   <select
                     className="form-select form-select-sm"
                     value={order.status}
-                    onChange={e => updateStatus(order.id, e.target.value)}
+                    onChange={e => updateStatus(order.order_id, e.target.value as OrderStatus)}
                   >
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Cancelled">Cancelled</option>
+                    <option value="pending">Pending</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="confirmed">Confirmed</option>
                   </select>
                 </td>
-                <td><button className="btn btn-sm btn-danger">Delete</button></td>
+                <td>{order.payment_method}</td>
+                <td>{order.shipping_method}</td>
+                <td>{order.address_line}</td>
+                <td>{order.city}</td>
+                <td>{order.state}</td>
+                <td>{order.pincode}</td>
+                <td>{order.country}</td>
               </tr>
             ))}
           </tbody>
