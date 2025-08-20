@@ -9,3 +9,5 @@ export interface userDetail {
     pincode: string;
     country: string;
 }
+
+export type userDetailData = Omit<userDetail, 'id'>

@@ -85,7 +85,6 @@ const App = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            {/* <Route path='/order' element={<Order />} /> */}
             <Route path='/orders' element={<OrdersPage />} />
             <Route path='/orders/:id' element={<OrderDetails />} />
             <Route path='/checkout' element={<Checkout />} />

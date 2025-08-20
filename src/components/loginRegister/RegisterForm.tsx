@@ -15,7 +15,7 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { actionLoading } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -150,9 +150,9 @@ const RegisterForm = () => {
                   <button
                     type="submit"
                     className="btn btn-danger w-100 py-2 mb-3 fw-bold"
-                    disabled={loading}
+                    disabled={actionLoading}
                   >
-                    {loading ? (
+                    {actionLoading ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
                         Registering...

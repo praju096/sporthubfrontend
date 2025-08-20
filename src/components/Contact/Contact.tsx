@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Footer from '../Home/Footer';
 import './Contact.css';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const Contact = () => {
     e.preventDefault();
     // Here you can handle form submission, e.g., send data to an API
     console.log('Form submitted:', formData);
-    alert('Message sent successfully!');
+    toast.success('Message sent successfully!');
     setFormData({
       name: '',
       email: '',

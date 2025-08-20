@@ -16,6 +16,13 @@ export type OrderStatus =
     | 'delivered'
     | 'confirmed';
 
+export const statusClasses: Record<OrderStatus, string> = {
+    pending: "bg-warning text-dark",
+    confirmed: "bg-primary",
+    shipped: "bg-info text-dark",
+    delivered: "bg-success",
+};
+
 export interface AdminOrderItem {
     order_id: number;
     user_id: number;

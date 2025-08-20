@@ -1,4 +1,4 @@
-import { userDetail } from "../types/userDetailTypes";
+import { userDetail, userDetailData } from "../types/userDetailTypes";
 import API from "./axios";
 
 const getUser = async (): Promise<userDetail[]> => {
@@ -6,7 +6,7 @@ const getUser = async (): Promise<userDetail[]> => {
     return res.data.data;
 };
 
-const addUser = async (data: userDetail): Promise<userDetail> => {
+const addUser = async (data: userDetailData): Promise<userDetail> => {
     const res = await API.post("/api/userdetail", data);
     return res.data.data;
 };

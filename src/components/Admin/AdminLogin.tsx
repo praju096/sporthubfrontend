@@ -14,7 +14,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { actionLoading } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -95,9 +95,9 @@ const AdminLogin = () => {
           <button
             type="submit"
             className="btn btn-danger w-100 py-2 fw-bold mb-3"
-            disabled={loading}
+            disabled={actionLoading}
           >
-            {loading ? (
+            {actionLoading ? (
               <>
                 <span
                   className="spinner-border spinner-border-sm me-2"

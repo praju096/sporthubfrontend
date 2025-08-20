@@ -6,6 +6,7 @@ import UserDetailForm from './UserDetailForm';
 import { fetchUserDetail } from '../../redux/features/userDetail/userDetailSlice';
 import { userPlaceOrder } from '../../redux/features/order/orderSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,7 @@ const Checkout = () => {
 
   const handlePlaceOrder = async () => {
     if (!selectedAddress) {
-      alert('Please select an address or add one.');
+      toast.warn('Please select an address or add one.');
       return;
     }
     try {
@@ -41,10 +42,10 @@ const Checkout = () => {
         payment_method: paymentMethod,
         shipping_method: shippingMethod
       }));
-      alert('Order placed successfully!');
+      toast.success('Order placed successfully!');
       navigate('/orders')
     } catch {
-      alert('Failed to place order');
+      toast.warn('Failed to place order');
     }
   };
 
@@ -105,7 +106,9 @@ const Checkout = () => {
 
               {showAddressForm && (
                 <div className="mt-3 border-top pt-3">
-                  <UserDetailForm onSaved={() => {
+                  <UserDetailForm
+                  mode='add' 
+                  onSaved={() => {
                     dispatch(fetchUserDetail());
                     setShowAddressForm(false);
                   }} />

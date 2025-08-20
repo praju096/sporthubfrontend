@@ -3,14 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchOrderById } from '../../redux/features/order/orderSlice';
+import { OrderStatus, statusClasses } from '../../types/orderTypes';
 
 const OrderDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const { currentOrder, loading } = useSelector((s: RootState) => s.order as any);
 
-  useEffect(() => { 
-    if (id) dispatch(fetchOrderById(Number(id))); 
+  useEffect(() => {
+    if (id) dispatch(fetchOrderById(Number(id)));
   }, [dispatch, id]);
 
   if (loading || !currentOrder) {
@@ -43,7 +44,9 @@ const OrderDetails = () => {
             </div>
             <div className="col-md-6">
               <h6 className="text-muted">Status</h6>
-              <p className="badge bg-warning text-dark">{order.status || 'Processing'}</p>
+              <p className={`badge ${statusClasses[order.status as OrderStatus] || "bg-secondary"}`}>
+                {order.status}
+              </p>
             </div>
           </div>
 
@@ -73,7 +76,7 @@ const OrderDetails = () => {
                 </div>
                 <div>
                   <span className="text-dark">₹{it.price}</span>
-                  <br/>
+                  <br />
                   <small className="text-muted">₹{(it.price * it.quantity).toFixed(2)}</small>
                 </div>
               </li>

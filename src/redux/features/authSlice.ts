@@ -4,13 +4,15 @@ import userLoginRegisterApi from "../../services/userLoginRegisterApi";
 
 interface AuthState {
   user: AuthResponse["user"] | null;
-  loading: boolean;
+  loading: boolean;        // fetchCurrentUser
+  actionLoading: boolean;  // for login/register/logout actions
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  loading: false,
+  loading: true,
+  actionLoading: false,
   error: null,
 };
 
@@ -80,43 +82,43 @@ const authSlice = createSlice({
     builder
       // Register
       .addCase(registerUsers.pending, (state) => {
-        state.loading = true;
+        state.actionLoading = true;
         state.error = null;
       })
       .addCase(registerUsers.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.user = action.payload.user;
       })
       .addCase(registerUsers.rejected, (state, action) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.error = action.payload as string;
       })
 
       // Login
       .addCase(loginUsers.pending, (state) => {
-        state.loading = true;
+        state.actionLoading = true;
         state.error = null;
       })
       .addCase(loginUsers.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.user = action.payload.user;
       })
       .addCase(loginUsers.rejected, (state, action) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.error = action.payload as string;
       })
 
        // Login Admin
       .addCase(loginAdmins.pending, (state) => {
-        state.loading = true;
+        state.actionLoading = true;
         state.error = null;
       })
       .addCase(loginAdmins.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.user = action.payload.user;
       })
       .addCase(loginAdmins.rejected, (state, action) => {
-        state.loading = false;
+        state.actionLoading = false;
         state.error = action.payload as string;
       })
 

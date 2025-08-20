@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 import { fetchOrdersUser } from '../../redux/features/order/orderSlice';
+import { OrderStatus, statusClasses } from '../../types/orderTypes';
 
 const OrdersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -60,11 +61,8 @@ const OrdersPage = () => {
                       <td className="text-dark fw-semibold">#{o.id}</td>
                       <td>{new Date(o.created_at).toLocaleDateString()}</td>
                       <td>
-                        <span className={`badge ${
-                          o.status === 'completed' ? 'bg-success' : 
-                          o.status === 'cancelled' ? 'bg-secondary' : 'bg-warning'
-                        }`}>
-                          {o.status || 'Processing'}
+                        <span className={`badge ${statusClasses[o.status as OrderStatus] || "bg-secondary"}`}>
+                          {o.status}
                         </span>
                       </td>
                       <td className="text-end text-danger fw-bold">₹{o.total}</td>

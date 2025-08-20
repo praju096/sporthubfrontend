@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userDetailApi from "../../../services/userDetailApi";
-import { userDetail } from "../../../types/userDetailTypes";
+import { userDetail, userDetailData } from "../../../types/userDetailTypes";
 
 interface userDetailState {
   userDetail: userDetail[];
@@ -30,7 +30,7 @@ export const fetchUserDetail = createAsyncThunk(
 // ADD user detail
 export const addUserDetail = createAsyncThunk(
   "userDetail/add",
-  async (payload: userDetail, { rejectWithValue }) => {
+  async (payload: userDetailData, { rejectWithValue }) => {
     try {
       const res = await userDetailApi.addUserDetail(payload);
       return res;
@@ -67,7 +67,7 @@ const userDetailSlice = createSlice({
       })
       .addCase(addUserDetail.fulfilled, (state, action) => {
         state.loading = false;
-        state.userDetail.push(action.payload);
+        // state.userDetail.push(action.payload);
       })
       .addCase(addUserDetail.rejected, (state, action) => {
         state.loading = false;
