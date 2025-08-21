@@ -1,15 +1,10 @@
-.shop-hero {
+.hero-banner {
   padding: 100px 0;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('https://placehold.co/1920x600?text=AllProducts');
   background-size: cover;
   background-position: center;
   border-radius: 0 0 20px 20px;
-}
-.filter-card {
-  position: sticky;
-  top: 20px;
-  border-radius: 15px;
 }
 
 .size-options .btn {

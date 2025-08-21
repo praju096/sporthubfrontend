@@ -7,10 +7,12 @@ import { OrderStatus, statusClasses } from '../../types/orderTypes';
 
 const OrdersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { orders, loading } = useSelector((s: RootState) => s.order as any);
+  const { orders, loading } = useSelector(
+    (state: RootState) => state.order
+  );
 
-  useEffect(() => { 
-    dispatch(fetchOrdersUser()); 
+  useEffect(() => {
+    dispatch(fetchOrdersUser());
   }, [dispatch]);
 
   if (loading) {
@@ -32,7 +34,7 @@ const OrdersPage = () => {
             Your Order History
           </h4>
         </div>
-        
+
         <div className="card-body p-0">
           {orders.length === 0 ? (
             <div className="text-center py-5">
@@ -67,8 +69,8 @@ const OrdersPage = () => {
                       </td>
                       <td className="text-end text-danger fw-bold">₹{o.total}</td>
                       <td className="text-end">
-                        <Link 
-                          to={`/orders/${o.id}`} 
+                        <Link
+                          to={`/orders/${o.id}`}
                           className="btn btn-sm btn-outline-dark"
                         >
                           <i className="bi bi-eye me-1"></i> Details

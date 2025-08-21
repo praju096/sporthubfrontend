@@ -38,7 +38,7 @@ const HeroCarousel = () => {
                     <div className="carousel-caption">
                         <h1 className="display-4 fw-bold mb-3 mb-md-2">LIMITLESS PERFORMANCE</h1>
                         <p className="lead d-none d-sm-block mb-4 mb-md-3">Elevate your game with our latest collection</p>
-                        <Link to="#" className="btn btn-danger btn-lg">
+                        <Link to="/shop" className="btn btn-danger btn-lg">
                             SHOP NOW
                         </Link>
                     </div>
@@ -57,7 +57,7 @@ const HeroCarousel = () => {
                     <div className="carousel-caption">
                         <h1 className="display-4 fw-bold mb-3 mb-md-2">TEAM SPIRIT</h1>
                         <p className="lead d-none d-sm-block mb-4 mb-md-3">Custom kits for your entire squad</p>
-                        <Link to="#" className="btn btn-primary btn-lg">
+                        <Link to="/shop" className="btn btn-primary btn-lg">
                             EXPLORE
                         </Link>
                     </div>
@@ -76,7 +76,7 @@ const HeroCarousel = () => {
                     <div className="carousel-caption">
                         <h1 className="display-4 fw-bold mb-3 mb-md-2">GEAR UP FOR GREATNESS</h1>
                         <p className="lead d-none d-sm-block mb-4 mb-md-3">Premium sports equipment for champions</p>
-                        <Link to="#" className="btn btn-success btn-lg">
+                        <Link to="/shop" className="btn btn-success btn-lg">
                             GET STARTED
                         </Link>
                     </div>

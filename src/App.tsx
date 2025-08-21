@@ -35,11 +35,15 @@ import AdminPrivateRoute from './AdminPrivateRoute';
 import { fetchUserCart } from './redux/features/cart/cartSlice';
 import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
 import Checkout from './components/Checkout/Checkout';
-import OrdersPage from './components/Navbar/OrdersPage';
-import OrderDetails from './components/Navbar/OrderDetails';
+import OrdersPage from './components/Order/OrdersPage';
+import OrderDetails from './components/Order/OrderDetails';
+import TrackOrder from './components/Order/TrackOrder';
+import ReturnsExchanges from './components/Order/ReturnsExchanges';
+import ShippingInfo from './components/Order/ShippingInfo';
+import FAQ from './components/Order/FAQ';
 
 
-const LayoutWrapper = ({ children }:{ children: React.ReactNode }) => {
+const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const hideNavbar = location.pathname.includes("/admin") || location.pathname === "/welcome";
 
@@ -89,6 +93,10 @@ const App = () => {
             <Route path='/orders/:id' element={<OrderDetails />} />
             <Route path='/checkout' element={<Checkout />} />
           </Route>
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/returns-exchanges" element={<ReturnsExchanges />} />
+          <Route path="/shipping-info" element={<ShippingInfo />} />
+          <Route path="/faq" element={<FAQ />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterForm />} />

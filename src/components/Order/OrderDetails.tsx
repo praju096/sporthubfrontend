@@ -8,7 +8,9 @@ import { OrderStatus, statusClasses } from '../../types/orderTypes';
 const OrderDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const { currentOrder, loading } = useSelector((s: RootState) => s.order as any);
+  const { currentOrder, loading } = useSelector(
+    (state: RootState) => state.order
+  );
 
   useEffect(() => {
     if (id) dispatch(fetchOrderById(Number(id)));
@@ -24,8 +26,8 @@ const OrderDetails = () => {
     );
   }
 
-  const order = currentOrder.data.order;
-  const items = currentOrder.data.items;
+  const order = currentOrder?.data?.order;
+  const items = currentOrder?.data?.items;
 
   return (
     <div className="container mt-5 pt-4" style={{ minHeight: 'calc(100vh - 56px)' }}>
@@ -40,7 +42,12 @@ const OrderDetails = () => {
           <div className="row mb-3">
             <div className="col-md-6">
               <h6 className="text-muted">Order Date</h6>
-              <p>{new Date(order.created_at).toLocaleDateString()}</p>
+              <p>
+                {order?.created_at
+                  ? new Date(order.created_at).toLocaleDateString()
+                  : "N/A"}
+              </p>
+
             </div>
             <div className="col-md-6">
               <h6 className="text-muted">Status</h6>

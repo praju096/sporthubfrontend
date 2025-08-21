@@ -5,7 +5,7 @@ import { adminLogout } from '../../redux/features/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 
-const AdminLayout: React.FC = () => {
+const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();

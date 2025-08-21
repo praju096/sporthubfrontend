@@ -102,7 +102,7 @@ const Shop = () => {
     return (
         <div className="shop-page">
             {/* Hero Banner */}
-            <div className="shop-hero mb-5">
+            <div className="hero-banner mb-5">
                 <div className="container">
                     <h1 className="display-4 fw-bold text-white">{pageTitle}</h1>
                     <p className="lead text-white">
@@ -114,7 +114,7 @@ const Shop = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-3 mb-4">
-                        <div className="card shadow-sm filter-card">
+                        <div className="card shadow-sm border-1 sticky-top" style={{ top: "70px" }}>
                             <div className="card-body">
                                 <h5 className="card-title mb-4">FILTERS</h5>
 

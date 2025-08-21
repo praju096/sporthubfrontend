@@ -19,21 +19,21 @@ const Footer = () => {
                     <div className="col-lg-2 col-md-4">
                         <h5 className="mb-4">SHOP</h5>
                         <ul className="list-unstyled">
-                            <li className="mb-2"><Link to="#" className="text-white-50">Men</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">Women</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">Kids</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">New Arrivals</Link></li>
-                            <li><Link to="#" className="text-white-50">Sale</Link></li>
+                            <li className="mb-2"><Link to="/categories/men" className="text-white-50">Men</Link></li>
+                            <li className="mb-2"><Link to="/categories/women" className="text-white-50">Women</Link></li>
+                            <li className="mb-2"><Link to="/categories/kids" className="text-white-50">Kids</Link></li>
+                            <li className="mb-2"><Link to="/categories/new-arrivals" className="text-white-50">New Arrivals</Link></li>
+                            <li><Link to="/categories/sale" className="text-white-50">Sale</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-2 col-md-4">
                         <h5 className="mb-4">HELP</h5>
                         <ul className="list-unstyled">
-                            <li className="mb-2"><Link to="#" className="text-white-50">Customer Service</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">Track Order</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">Returns & Exchanges</Link></li>
-                            <li className="mb-2"><Link to="#" className="text-white-50">Shipping Info</Link></li>
-                            <li><Link to="#" className="text-white-50">FAQ</Link></li>
+                            <li className="mb-2"><Link to="/contact" className="text-white-50">Customer Service</Link></li>
+                            <li className="mb-2"><Link to="/track-order" className="text-white-50">Track Order</Link></li>
+                            <li className="mb-2"><Link to="/returns-exchanges" className="text-white-50">Returns & Exchanges</Link></li>
+                            <li className="mb-2"><Link to="/shipping-info" className="text-white-50">Shipping Info</Link></li>
+                            <li><Link to="/faq" className="text-white-50">FAQ</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-4 col-md-4">

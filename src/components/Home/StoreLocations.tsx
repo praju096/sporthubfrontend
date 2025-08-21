@@ -11,7 +11,7 @@ const StoreLocations = () => {
             <div className="col-md-6 col-lg-3">
               <div className="store-card p-4 bg-secondary rounded-3 h-100">
                 <img src={IMAGES.STORES.GJ} className="img-fluid mb-3 rounded-2" alt="Gujrat storefront" />
-                <h4>Gujrat</h4>
+                <h4>Gujarat</h4>
                 <p className="mb-1">123 Sports Ave, GJ 10001</p>
                 <p className="mb-3">Mon-Sat: 9AM-9PM</p>
                 <Link to="#" className="btn btn-outline-light">DIRECTIONS</Link>

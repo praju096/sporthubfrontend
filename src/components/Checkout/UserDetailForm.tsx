@@ -11,7 +11,7 @@ interface UserDetailFormProps {
   mode?: "add" | "edit";
 }
 
-const UserDetailForm: React.FC<UserDetailFormProps> = ({ onSaved, mode }) => {
+const UserDetailForm = ({ onSaved, mode }: UserDetailFormProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { userDetail, loading } = useSelector(
     (state: RootState) => state.userDetail

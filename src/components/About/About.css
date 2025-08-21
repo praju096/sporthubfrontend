@@ -4,24 +4,12 @@
 }
 
 .about-hero {
+  padding: 100px 0;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("https://placehold.co/1920x600?text=About+Sport+Hub");
   background-size: cover;
   background-position: center;
-  color: white;
-  text-align: center;
-  padding: 120px 20px;
-  margin-bottom: 50px;
-}
-
-.about-hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.about-hero p {
-  font-size: 1.2rem;
-  opacity: 0.9;
+  border-radius: 0 0 20px 20px;
 }
 
 .our-story {
@@ -29,7 +17,6 @@
 }
 
 .our-story h2 {
-  color: #ff4757;
   font-size: 2rem;
   margin-bottom: 20px;
 }
@@ -46,7 +33,6 @@
 }
 
 .core-values h2 {
-  color: #ff4757;
   font-size: 2rem;
   margin-bottom: 50px;
 }

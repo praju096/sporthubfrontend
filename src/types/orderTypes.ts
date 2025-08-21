@@ -1,7 +1,11 @@
 export interface orderDetail {
+    id?: number;
     userdetail_id: number;
     payment_method: string;
     shipping_method: string;
+    status?: string;
+    total?: string;
+    created_at?: string;
 }
 export interface OrderItem {
     id?: number;
@@ -10,6 +14,14 @@ export interface OrderItem {
     quantity: number;
     price: number;
 }
+
+export interface orderCurrentStates {
+    data: {
+        order: orderDetail;
+        items: OrderItem[];
+    };
+}
+
 export type OrderStatus =
     | 'pending'
     | 'shipped'

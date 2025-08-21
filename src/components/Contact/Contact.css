@@ -4,24 +4,12 @@
 }
 
 .contact-hero {
+  padding: 100px 0;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("https://placehold.co/1920x600?text=Contact+Sport+Hub");
   background-size: cover;
   background-position: center;
-  color: white;
-  text-align: center;
-  padding: 120px 20px;
-  margin-bottom: 50px;
-}
-
-.contact-hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.contact-hero p {
-  font-size: 1.2rem;
-  opacity: 0.9;
+  border-radius: 0 0 20px 20px;
 }
 
 .contact-grid {
@@ -41,7 +29,6 @@
 
 .contact-form-section h2,
 .contact-info-section h2 {
-  color: #ff4757;
   margin-bottom: 25px;
   font-size: 1.8rem;
   position: relative;
@@ -67,24 +54,6 @@
   border-color: #ff4757;
   box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2);
 }
-
-.submit-btn {
-  background: #ff4757;
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.submit-btn:hover {
-  background: #e63946;
-  transform: translateY(-2px);
-}
-
 .contact-info-card {
   background: #f8f9fa;
   border-radius: 10px;
@@ -97,7 +66,6 @@
 }
 
 .info-icon {
-  background: #ff4757;
   color: white;
   width: 40px;
   height: 40px;
