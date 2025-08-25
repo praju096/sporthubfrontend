@@ -51,23 +51,37 @@ const OrdersPage = () => {
                 <thead className="bg-light">
                   <tr>
                     <th className="border-0">Order #</th>
-                    <th className="border-0">Date</th>
+                    <th className="border-0">Order Date</th>
                     <th className="border-0">Status</th>
-                    <th className="border-0 text-end">Total</th>
+                    <th className="border-0">Total</th>
+                    <th className='border-0 text-center'>Expected Delivery</th>
+                    <th className='border-0 text-center'>Delivered At</th>
                     <th className="border-0"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((o: any) => (
+                  {orders.map(o => (
                     <tr key={o.id}>
                       <td className="text-dark fw-semibold">#{o.id}</td>
-                      <td>{new Date(o.created_at).toLocaleDateString()}</td>
+                      <td>{o?.created_at
+                        ? new Date(o.created_at).toLocaleDateString()
+                        : "N/A"}</td>
                       <td>
                         <span className={`badge ${statusClasses[o.status as OrderStatus] || "bg-secondary"}`}>
                           {o.status}
                         </span>
                       </td>
-                      <td className="text-end text-danger fw-bold">₹{o.total}</td>
+                      <td className="text-danger fw-bold">₹{o.total}</td>
+                      <td className='text-center'>
+                        {o.expected_delivery ?
+                          new Date(o.expected_delivery).toLocaleDateString()
+                          : "-"}
+                      </td>
+                      <td className="text-center">
+                        {o.delivered_at ?
+                          new Date(o.delivered_at).toLocaleDateString()
+                          : "-"}
+                      </td>
                       <td className="text-end">
                         <Link
                           to={`/orders/${o.id}`}

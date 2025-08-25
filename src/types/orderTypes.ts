@@ -6,6 +6,8 @@ export interface orderDetail {
     status?: string;
     total?: string;
     created_at?: string;
+    expected_delivery?: string;
+    delivered_at?: string;
 }
 export interface OrderItem {
     id?: number;
@@ -13,6 +15,8 @@ export interface OrderItem {
     product_id: number;
     quantity: number;
     price: number;
+    product_name: string;
+    product_image: string;
 }
 
 export interface orderCurrentStates {
@@ -29,9 +33,9 @@ export type OrderStatus =
     | 'confirmed';
 
 export const statusClasses: Record<OrderStatus, string> = {
-    pending: "bg-warning text-dark",
-    confirmed: "bg-primary",
-    shipped: "bg-info text-dark",
+    pending: "bg-danger",
+    confirmed: "bg-danger",
+    shipped: "bg-danger",
     delivered: "bg-success",
 };
 
@@ -50,4 +54,6 @@ export interface AdminOrderItem {
     state: string;
     pincode: number;
     country: string;
+    expected_delivery: string;
+    delivered_at: string;
 }

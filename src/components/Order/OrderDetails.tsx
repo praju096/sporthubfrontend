@@ -40,19 +40,36 @@ const OrderDetails = () => {
         </div>
         <div className="card-body">
           <div className="row mb-3">
-            <div className="col-md-6">
+            <div className="col-md-4">
               <h6 className="text-muted">Order Date</h6>
               <p>
                 {order?.created_at
                   ? new Date(order.created_at).toLocaleDateString()
                   : "N/A"}
               </p>
-
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <h6 className="text-muted">Status</h6>
-              <p className={`badge ${statusClasses[order.status as OrderStatus] || "bg-secondary"}`}>
-                {order.status}
+              <p
+                className={`badge ${statusClasses[order?.status as OrderStatus] || "bg-secondary"
+                  }`}
+              >
+                {order?.status || "Unknown"}
+              </p>
+            </div>
+            <div className="col-md-4">
+              <h6 className="text-muted">
+                {order?.delivered_at ? "Delivered On" : "Expected Delivery"}
+              </h6>
+              <p
+                className={`fw-semibold ${order?.delivered_at ? "text-success" : order?.expected_delivery ? "text-" : "text-muted"
+                  }`}
+              >
+                {order?.delivered_at
+                  ? new Date(order.delivered_at).toLocaleDateString()
+                  : order?.expected_delivery
+                    ? new Date(order.expected_delivery).toLocaleDateString()
+                    : "-"}
               </p>
             </div>
           </div>
@@ -75,16 +92,34 @@ const OrderDetails = () => {
         </div>
         <div className="card-body p-0">
           <ul className="list-group list-group-flush">
-            {items.map((it: any) => (
-              <li key={it.id} className="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 className="mb-1 text-dark">{it.product_name || it.product_id}</h6>
-                  <small className="text-muted">Qty: {it.quantity}</small>
+            {items.map((item) => (
+              <li
+                key={item.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div className="d-flex align-items-center">
+                  {item.product_image && (
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}${item.product_image}`}
+                      alt={item.product_name}
+                      className="rounded me-3"
+                      style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                    />
+                  )}
+                  <div>
+                    <h6 className="mb-1 text-dark">
+                      {item.product_name}
+                    </h6>
+                    <small className="text-muted">Qty: {item.quantity}</small>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-dark">₹{it.price}</span>
+
+                <div className="text-end">
+                  <span className="text-dark">₹{item.price}</span>
                   <br />
-                  <small className="text-muted">₹{(it.price * it.quantity).toFixed(2)}</small>
+                  <small className="text-muted">
+                    ₹{(item.price * item.quantity).toFixed(2)}
+                  </small>
                 </div>
               </li>
             ))}
