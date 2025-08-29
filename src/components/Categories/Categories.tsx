@@ -4,12 +4,11 @@ import Footer from '../Home/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchProductsByCategory } from '../../redux/features/category/categoryProductsSlice';
-import './Categories.css';
+import '../../css/Categories.css';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import ProductCard from '../ProductCard';
-
 
 const Categories = () => {
   const { category } = useParams<{ category: string }>();

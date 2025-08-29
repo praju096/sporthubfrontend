@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchUserCart, removeFromCart, updateCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
+import '../../css/Cart.css'
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -147,22 +148,6 @@ const Cart = () => {
             </div>
           </div>
         )}
-
-        <style>{`
-          .cart-page h2 {
-            font-size: 2rem;
-          }
-          .cart-card:hover {
-            background-color: #f8f9fa;
-          }
-          .quantity-control .form-control {
-            max-width: 50px;
-            min-height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-        `}</style>
       </div>
       <Footer />
     </>

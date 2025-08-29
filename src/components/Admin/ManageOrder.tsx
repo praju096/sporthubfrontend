@@ -17,8 +17,8 @@ const ManageOrders = () => {
     dispatch(fetchOrdersAdmin());
   }, [dispatch]);
 
-  const updateStatus = (id: number, status: OrderStatus) => {
-    const payload: any = { id, status };
+  const updateStatus = (id: number, status: OrderStatus, expected_delivery?: string) => {
+    const payload = { id, status, expected_delivery };
 
     // if shipped/confirmed, include expected delivery (if admin set it)
     if ((status === "shipped" || status === "confirmed") && expectedDates[id]) {

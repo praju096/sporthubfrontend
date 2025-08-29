@@ -25,3 +25,35 @@
 .results-count {
   font-weight: 500;
 }
+.pagination {
+    margin-top: 2rem;
+}
+
+.page-item.active .page-link {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.page-link {
+    color: #dc3545;
+}
+
+.page-link:hover {
+    color: #a71e2a;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.color-option.active {
+    border: 2px solid #dc3545;
+}
+
+.sticky-top {
+    z-index: 100;
+}

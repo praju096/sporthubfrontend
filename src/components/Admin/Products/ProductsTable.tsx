@@ -1,12 +1,5 @@
 import React from "react";
-import { Product } from "../../../types/productsTypes";
-
-interface ProductsTableProps {
-  products: Product[];
-  onEdit: (product: Product) => void;
-  onDelete: (id: number) => void;
-  loading: boolean;
-}
+import { ProductsTableProps } from "../../../types/productsTypes";
 
 const ProductsTable = ({ products, onEdit, onDelete, loading }:ProductsTableProps) => {
   if (loading) {

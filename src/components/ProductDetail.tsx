@@ -6,6 +6,7 @@ import { getProductById } from "../redux/features/products/productSlice";
 import { toast } from "react-toastify";
 import { addToCart } from "../redux/features/cart/cartSlice";
 import { addWishlist } from "../redux/features/wishlist/wishlistSlice";
+import Rating from "./Rating";
 
 const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -97,13 +98,7 @@ const ProductDetail = () => {
 
                     {productDetail.rating && (
                         <div className="mb-4">
-                            <span className="text-warning fs-4">
-                                {"★".repeat(Math.floor(productDetail.rating))}
-                                {"☆".repeat(5 - Math.floor(productDetail.rating))}
-                            </span>
-                            <span className="text-muted ms-2 fs-6">
-                                ({productDetail.rating})
-                            </span>
+                            <Rating rating={productDetail.rating} />
                         </div>
                     )}
 
@@ -127,13 +122,21 @@ const ProductDetail = () => {
                             onClick={() => handleAddToCart(productDetail.id)}
                             disabled={isInCart}
                         >
-                            <i className="fas fa-shopping-cart me-2"></i>{isInCart ? 'Added to Cart' : 'Add to Cart'}
+                            {isInCart ? (
+                                <><i className="fas fa-check-circle me-2"></i> Added to Cart</>
+                            ) : (
+                                <><i className="fas fa-shopping-cart me-2"></i> Add to Cart</>
+                            )}
                         </button>
                         <button className="btn btn-outline-dark btn-lg px-4 shadow-sm"
                             onClick={() => handleAddToWishlist(productDetail.id)}
                             disabled={isInWishlist}
                         >
-                            <i className="fas fa-heart me-2"></i>{isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}
+                            {isInWishlist ? (
+                                <><i className="fas fa-heart me-1"></i> In Wishlist</>
+                            ) : (
+                                <><i className="far fa-heart me-1"></i> Add to Wishlist</>
+                            )}
                         </button>
                     </div>
                 </div>

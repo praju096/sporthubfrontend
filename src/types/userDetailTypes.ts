@@ -11,3 +11,8 @@ export interface userDetail {
 }
 
 export type userDetailData = Omit<userDetail, 'id'>
+
+export interface UserDetailFormProps {
+  onSaved?: () => void;
+  mode?: "add" | "edit";
+}

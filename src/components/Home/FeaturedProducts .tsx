@@ -3,18 +3,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchFeaturedProduct } from '../../redux/features/products/productSlice';
-import { CartItem } from '../../types/cartTypes';
-import { WishlistItem } from '../../types/wishlistTypes';
 import ProductCard from '../ProductCard';
+import { FeaturedProductsProps } from '../../types/productsTypes';
 
-interface FeaturedProductsProps {
-    onAddToCart: (productId: number) => void;
-    onAddToWishlist: (productId: number) => void;
-    cartItems: CartItem[];
-    wishlistItems: WishlistItem[];
-};
-
-const FeaturedProducts = ({ onAddToCart, onAddToWishlist, cartItems, wishlistItems }:FeaturedProductsProps) => {
+const FeaturedProducts = ({ onAddToCart, onAddToWishlist, cartItems, wishlistItems }: FeaturedProductsProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { featuredProduct, loading, error } = useSelector((state: RootState) => state.products);

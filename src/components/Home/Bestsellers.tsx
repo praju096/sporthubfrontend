@@ -3,18 +3,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchBestsellers } from '../../redux/features/products/productSlice';
-import { CartItem } from '../../types/cartTypes';
-import { WishlistItem } from '../../types/wishlistTypes';
 import ProductCard from './../ProductCard';
-
-
-interface BestsellersProps {
-  onAddToCart: (productId: number) => void;
-  onAddToWishlist: (productId: number) => void;
-  cartItems: CartItem[];
-  wishlistItems: WishlistItem[];
-};
-
+import { BestsellersProps } from '../../types/productsTypes';
 
 const Bestsellers = ({ onAddToCart, onAddToWishlist, cartItems, wishlistItems }: BestsellersProps) => {
   const dispatch = useDispatch<AppDispatch>();

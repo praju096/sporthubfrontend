@@ -1,14 +1,8 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Product, ProductFormData } from "../../../types/productsTypes";
+import { ProductFormData, ProductFormProps } from "../../../types/productsTypes";
 import { productSchema } from "../../../types/validation/productSchema";
-
-interface ProductFormProps {
-  onSubmit: SubmitHandler<ProductFormData>;
-  onCancel: () => void;
-  editProduct?: Product | null;
-}
 
 const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
   const {

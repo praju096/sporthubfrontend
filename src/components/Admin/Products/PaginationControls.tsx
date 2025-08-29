@@ -1,12 +1,5 @@
 import React from "react";
-
-interface PaginationControlsProps {
-  currentPage: number;
-  totalPages: number;
-  page: number;
-  onPrev: () => void;
-  onNext: () => void;
-}
+import { PaginationControlsProps } from "../../../types/productsTypes";
 
 const PaginationControls = ({
   currentPage,

@@ -15,7 +15,7 @@ const ManageCategories = () => {
   };
 
   const handleDeleteCategory = (id: number) => {
-    setCategories(categories.filter(cat => cat.id !== id));
+    setCategories(categories.filter(category => category.id !== id));
   };
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './SportsEcommerce.css';
+import '../../css/Home.css';
 import HeroCarousel from './HeroCarousel';
 import BrandsSection from './BrandsSection';
 import CategoriesSection from './CategoriesSection';

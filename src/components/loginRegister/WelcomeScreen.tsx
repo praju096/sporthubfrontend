@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import '../../css/WelcomeScreen.css'
 
 const WelcomeScreen = () => {
   const role = useSelector((state: RootState) => state.auth.user?.role);
@@ -43,25 +44,6 @@ const WelcomeScreen = () => {
           ></div>
         </div>
       </div>
-
-      <style>{`
-        .welcome-screen {
-          background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #0d0d0d);
-        }
-        .text-neon {
-          color: #ff0033;
-        }
-        .bg-neon {
-          background-color: #ff0033 !important;
-        }
-        .glow {
-          text-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
-        }
-        @keyframes fillBar {
-          from { width: 0; }
-          to { width: 100%; }
-        }
-      `}</style>
     </div>
   );
 };

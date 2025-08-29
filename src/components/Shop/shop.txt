@@ -5,14 +5,14 @@ import { Product } from "../../types/productsTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchAllProducts, searchProducts } from "../../redux/features/products/productSlice";
-import '../../css/Shop.css';
+import './Shop.css';
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import { addWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import ProductCard from "../ProductCard";
 import FiltersSidebar from "./FiltersSidebar";
 import ProductsGrid from "./ProductsGrid";
 import SortOptions from "./SortOptions";
-import Pagination from "./Pagination";
 
 const Shop = () => {
     const { category } = useParams<{ category: string }>();
@@ -23,7 +23,7 @@ const Shop = () => {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
     const [sortOption, setSortOption] = useState("featured");
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage] = useState(12);
+    const [productsPerPage] = useState(12); // Products per page
 
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
@@ -38,9 +38,10 @@ const Shop = () => {
         } else {
             dispatch(fetchAllProducts());
         }
-        setCurrentPage(1);
+        setCurrentPage(1); // Reset to first page when filters change
     }, [dispatch, submittedQuery, category]);
 
+    // Filter products based on category and other filters
     const filteredProducts = allProducts.filter((product: Product) => {
         const matchesCategory =
             !category ||
@@ -53,15 +54,16 @@ const Shop = () => {
         const matchesPrice =
             product.price >= priceRange[0] && product.price <= priceRange[1];
 
-        // const matchesSize = selectedSizes.length === 0 || 
-        //     (product.sizes && product.sizes.some(size => selectedSizes.includes(size)));
+        const matchesSize = selectedSizes.length === 0 || 
+            (product.sizes && product.sizes.some(size => selectedSizes.includes(size)));
+            
+        const matchesColor = selectedColors.length === 0 || 
+            (product.colors && product.colors.some(color => selectedColors.includes(color)));
 
-        // const matchesColor = selectedColors.length === 0 || 
-        //     (product.colors && product.colors.some(color => selectedColors.includes(color)));
-
-        return matchesCategory && matchesPrice;
+        return matchesCategory && matchesPrice && matchesSize && matchesColor;
     });
 
+    // Sort products
     const sortedProducts = [...filteredProducts].sort((a, b) => {
         if (sortOption === "price-low") return a.price - b.price;
         if (sortOption === "price-high") return b.price - a.price;
@@ -69,10 +71,13 @@ const Shop = () => {
         return a.id - b.id;
     });
 
+    // Get current products for pagination
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
+    // Change page
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     const pageTitle = category
@@ -107,16 +112,17 @@ const Shop = () => {
 
     const handleClearSearch = () => {
         setSearchQuery("");
-        setSubmittedQuery("");
+        setSubmittedQuery(""); // triggers fetchAllProducts
         setCurrentPage(1);
     };
 
     const handleFilterChange = () => {
-        setCurrentPage(1);
+        setCurrentPage(1); // Reset to first page when filters change
     };
 
     return (
         <div className="shop-page">
+            {/* Hero Banner */}
             <div className="hero-banner mb-5">
                 <div className="container">
                     <h1 className="display-4 fw-bold text-white">{pageTitle}</h1>

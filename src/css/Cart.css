@@ -1,0 +1,13 @@
+.cart-page h2 {
+  font-size: 2rem;
+}
+.cart-card:hover {
+  background-color: #f8f9fa;
+}
+.quantity-control .form-control {
+  max-width: 50px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

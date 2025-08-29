@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../Home/Footer';
 
 const ShippingInfo: React.FC = () => {
   const shippingOptions = [
@@ -22,7 +23,7 @@ const ShippingInfo: React.FC = () => {
     }
   ];
 
-  return (
+  return (<div>
     <div className="container py-4 mt-5" style={{ backgroundColor: 'white' }}>
       <div className="row justify-content-center">
         <div className="col-lg-12">
@@ -75,6 +76,8 @@ const ShippingInfo: React.FC = () => {
         </div>
       </div>
     </div>
+    <Footer />
+  </div>
   );
 };
 

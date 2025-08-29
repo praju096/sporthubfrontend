@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Footer from '../Home/Footer';
 
 const FAQ: React.FC = () => {
   const faqs = [
@@ -30,65 +31,69 @@ const FAQ: React.FC = () => {
   ];
 
   const [searchTerm, setSearchTerm] = useState('');
-//   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
+  //   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
 
-  const filteredFaqs = faqs.filter(faq => 
-    faq.question.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredFaqs = faqs.filter(faq =>
+    faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
     faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="container py-4 mt-5" style={{ backgroundColor: 'white' }}>
-      <div className="row justify-content-center">
-        <div className="col-lg-12">
-          <h2 className="mb-4 text-black">Frequently Asked Questions</h2>
-          <div className="card border-black mb-4">
-            <div className="card-header bg-black text-white">
-              <h5 className="mb-0">Search FAQs</h5>
-            </div>
-            <div className="card-body">
-              <input
-                type="text"
-                className="form-control mb-3"
-                placeholder="Search FAQs..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {filteredFaqs.length > 0 ? (
-                <div className="accordion" id="faqAccordion">
-                  {filteredFaqs.map((faq, index) => (
-                    <div className="accordion-item border-0 mb-2" key={faq.id}>
-                      <h3 className="accordion-header">
-                        <button
-                          className={`accordion-button ${index === 0 ? '' : 'collapsed'} bg-danger text-white`}
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#collapse-${faq.id}`}
+    <div>
+      <div className="container py-4 mt-5" style={{ backgroundColor: 'white' }}>
+        <div className="row justify-content-center">
+          <div className="col-lg-12">
+            <h2 className="mb-4 text-black">Frequently Asked Questions</h2>
+            <div className="card border-black mb-4">
+              <div className="card-header bg-black text-white">
+                <h5 className="mb-0">Search FAQs</h5>
+              </div>
+              <div className="card-body">
+                <input
+                  type="text"
+                  className="form-control mb-3"
+                  placeholder="Search FAQs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                {filteredFaqs.length > 0 ? (
+                  <div className="accordion" id="faqAccordion">
+                    {filteredFaqs.map((faq, index) => (
+                      <div className="accordion-item border-0 mb-2" key={faq.id}>
+                        <h3 className="accordion-header">
+                          <button
+                            className={`accordion-button ${index === 0 ? '' : 'collapsed'} bg-danger text-white`}
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#collapse-${faq.id}`}
+                          >
+                            {faq.question}
+                          </button>
+                        </h3>
+                        <div
+                          id={`collapse-${faq.id}`}
+                          className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
+                          data-bs-parent="#faqAccordion"
                         >
-                          {faq.question}
-                        </button>
-                      </h3>
-                      <div
-                        id={`collapse-${faq.id}`}
-                        className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
-                        data-bs-parent="#faqAccordion"
-                      >
-                        <div className="accordion-body bg-light text-black">
-                          {faq.answer}
+                          <div className="accordion-body bg-light text-black">
+                            {faq.answer}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-4">
-                  <p className="text-black">No FAQs match your search criteria.</p>
-                </div>
-              )}
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-black">No FAQs match your search criteria.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
+
     </div>
   );
 };

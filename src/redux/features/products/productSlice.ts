@@ -163,7 +163,7 @@ const productSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchPaginatedProducts.fulfilled, (state, action: PayloadAction<any>) => {
+            .addCase(fetchPaginatedProducts.fulfilled, (state, action) => {
                 state.loading = false;
                 state.productsWithPage = action.payload.data;
                 state.total = action.payload.total;
@@ -187,9 +187,9 @@ const productSlice = createSlice({
                     state.allProducts = action.payload;
                 }
             )
-            .addCase(searchProducts.rejected, (state, action: any) => {
+            .addCase(searchProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload;
+                state.error = action.payload as string;
             })
 
             // product by id
@@ -236,8 +236,8 @@ const productSlice = createSlice({
 
             // Delete
             .addCase(deleteProduct.fulfilled, (state, action: PayloadAction<number>) => {
-                state.productsWithPage = state.productsWithPage.filter(p => p.id !== action.payload);
-                state.allProducts = state.allProducts.filter(p => p.id !== action.payload);
+                state.productsWithPage = state.productsWithPage.filter(product => product.id !== action.payload);
+                state.allProducts = state.allProducts.filter(product => product.id !== action.payload);
             })
             .addCase(deleteProduct.rejected, (state, action) => {
                 state.error = action.payload as string;

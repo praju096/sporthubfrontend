@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import '../../css/Wishlist.css'
 import { Link } from 'react-router-dom';
 import Footer from '../Home/Footer';
 import { AppDispatch, RootState } from '../../store';
@@ -46,7 +47,7 @@ const Wishlist = () => {
         ) : (
           <div className="row row-cols-1 row-cols-md-4 g-4">
             {wishlist.map((product) => {
-              const inCart = userCart.some((c) => c.product_id === product.product_id);
+              const inCart = userCart.some((cart) => cart.product_id === product.product_id);
 
               return (
                 <div className="col" key={product.wishlist_id}>
@@ -64,22 +65,22 @@ const Wishlist = () => {
                       <p className="card-text text-danger fs-5">₹{product.price}</p>
                       <div className="d-grid gap-2 mt-3">
                         <button
-                          className="btn btn-outline-danger"
+                          className="btn btn-danger"
                           onClick={() => removeItem(product.product_id)}
                         >
                           <i className="fas fa-trash me-2"></i>Remove
                         </button>
 
                         {inCart ? (
-                          <button className="btn btn-secondary" disabled>
-                            <i className="fas fa-check me-2"></i>Item in Cart
+                          <button className="btn btn-outline-danger" disabled>
+                            <i className="fas fa-check-circle me-2"></i>Item in Cart
                           </button>
                         ) : (
                           <button
-                            className="btn btn-danger"
+                            className="btn btn-outline-danger"
                             onClick={() => moveToCart(product.product_id)}
                           >
-                            <i className="fas fa-cart-plus me-2"></i>Move to Cart
+                            <i className="fas fa-shopping-cart me-2"></i>Move to Cart
                           </button>
                         )}
                       </div>
@@ -90,21 +91,6 @@ const Wishlist = () => {
             })}
           </div>
         )}
-
-        <style>{`
-          .wishlist-page h2 {
-            font-size: 2rem;
-          }
-          .product-card {
-            border-radius: 15px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-          }
-          .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-          }
-        `}</style>
       </div>
       <Footer />
     </>

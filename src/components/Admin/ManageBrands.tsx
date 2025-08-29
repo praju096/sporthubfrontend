@@ -14,7 +14,7 @@ const ManageBrands = () => {
   };
 
   const deleteBrand = (id: number) => {
-    setBrands(prev => prev.filter(b => b.id !== id));
+    setBrands(prev => prev.filter(brand => brand.id !== id));
   };
 
   return (

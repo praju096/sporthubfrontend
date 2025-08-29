@@ -1,0 +1,20 @@
+.welcome-screen {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #0d0d0d);
+}
+.text-neon {
+  color: #ff0033;
+}
+.bg-neon {
+  background-color: #ff0033 !important;
+}
+.glow {
+  text-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
+}
+@keyframes fillBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
