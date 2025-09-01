@@ -7,7 +7,7 @@ import cartReducer from "./redux/features/cart/cartSlice";
 import wishlistReducer from "./redux/features/wishlist/wishlistSlice";
 import userDetailReducer from './redux/features/userDetail/userDetailSlice';
 import orderReducer from './redux/features/order/orderSlice';
-
+import contactReducer from './redux/features/contact/contactSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,6 +19,7 @@ const store = configureStore({
     wishlist: wishlistReducer,
     userDetail: userDetailReducer,
     order: orderReducer,
+    contact: contactReducer,
   },
 });
 

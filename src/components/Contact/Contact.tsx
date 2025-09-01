@@ -1,34 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Footer from '../Home/Footer';
 import '../../css/Contact.css';
 import { toast } from 'react-toastify';
+import { ContactFormData } from '../../types/contactTypes';
+import { contactSchema } from '../../types/validation/contactSchema';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/features/contact/contactSlice';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    toast.success('Message sent successfully!');
-    setFormData({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields, isSubmitting },
+    reset
+  } = useForm<ContactFormData>({
+    resolver: yupResolver(contactSchema),
+    mode: "onTouched",
+    defaultValues: {
       name: '',
       email: '',
       subject: '',
       message: ''
-    });
+    }
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      await dispatch(addContact(data));
+      toast.success('Message sent successfully!');
+      reset();
+    } catch (error) {
+      toast.error('Failed to send message. Please try again.');
+    }
   };
 
   return (
@@ -44,49 +52,57 @@ const Contact = () => {
         <div className="contact-grid">
           <div className="contact-form-section">
             <h2 className='text-danger fw-bold'>Send us a message</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <input
                   type="text"
-                  name="name"
                   placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
+                  {...register('name')}
+                  className={`form-control ${errors.name && touchedFields.name ? "is-invalid" : ""}`}
                 />
+                {errors.name && (
+                  <div className="invalid-feedback">{errors.name.message}</div>
+                )}
               </div>
               <div className="form-group">
                 <input
                   type="email"
-                  name="email"
                   placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
+                  {...register('email')}
+                  className={`form-control ${errors.email && touchedFields.email ? "is-invalid" : ""}`}
                 />
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email.message}</div>
+                )}
               </div>
               <div className="form-group">
                 <input
                   type="text"
-                  name="subject"
                   placeholder="Subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
+                  {...register('subject')}
+                  className={`form-control ${errors.subject && touchedFields.subject ? "is-invalid" : ""}`}
                 />
+                {errors.subject && (
+                  <div className="invalid-feedback">{errors.subject.message}</div>
+                )}
               </div>
               <div className="form-group">
                 <textarea
-                  name="message"
                   placeholder="Your Message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
+                  rows={3}
+                  {...register('message')}
+                  className={`form-control ${errors.message && touchedFields.message ? "is-invalid" : ""}`}
                 ></textarea>
+                {errors.message && (
+                  <div className="invalid-feedback">{errors.message.message}</div>
+                )}
               </div>
-              <button type="submit" className="btn btn-outline-danger">
-                Send Message
+              <button
+                type="submit"
+                className="btn btn-outline-danger"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
@@ -144,8 +160,6 @@ const Contact = () => {
       </div>
 
       <Footer />
-
-
     </div>
   );
 };

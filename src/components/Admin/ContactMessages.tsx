@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { AppDispatch, RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContacts } from '../../redux/features/contact/contactSlice';
 
 const ContactMessages = () => {
-  const messages = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', message: 'I love your products!' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', message: 'Do you offer discounts for bulk orders?' },
-  ];
+  const dispatch = useDispatch<AppDispatch>();
+  const { contacts, loading, error } = useSelector(
+    (state: RootState) => state.contact
+  );
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  if (loading) return <div className="d-flex justify-content-center p-4"><div className="spinner-border text-primary"></div></div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
     <div className="card shadow rounded-4 p-4">
@@ -16,16 +26,18 @@ const ContactMessages = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Subject</th>
               <th>Message</th>
             </tr>
           </thead>
           <tbody>
-            {messages.map(msg => (
-              <tr key={msg.id}>
-                <td>{msg.id}</td>
-                <td>{msg.name}</td>
-                <td>{msg.email}</td>
-                <td>{msg.message}</td>
+            {contacts.map(contact => (
+              <tr key={contact.id}>
+                <td>{contact.id}</td>
+                <td>{contact.name}</td>
+                <td>{contact.email}</td>
+                <td>{contact.subject}</td>
+                <td>{contact.message}</td>
               </tr>
             ))}
           </tbody>

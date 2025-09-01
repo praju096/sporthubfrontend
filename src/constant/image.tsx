@@ -16,8 +16,8 @@ const IMAGES = {
     NEW_BALANCE: "images/brands/newbalance.jpg"
   },
 
-  // Category Images
-  CATEGORIES: {
+  // Sports Images
+  SPORTS: {
     RUNNING: "images/categories/running.jpg",
     BASKETBALL: "images/categories/basketball.jpg",
     FOOTBALL: "images/categories/football.jpg",

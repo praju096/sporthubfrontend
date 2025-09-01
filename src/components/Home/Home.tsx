@@ -4,7 +4,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../../css/Home.css';
 import HeroCarousel from './HeroCarousel';
 import BrandsSection from './BrandsSection';
-import CategoriesSection from './CategoriesSection';
 import FeaturedProducts from './FeaturedProducts ';
 import Bestsellers from './Bestsellers';
 import StoreLocations from './StoreLocations';
@@ -16,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { useNavigate } from 'react-router-dom';
+import SportsSection from './SportsSection';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const Home = () => {
       <BrandsSection />
 
       {/* Categories Section */}
-      <CategoriesSection />
+      <SportsSection />
 
       {/* Featured Products */}
       <FeaturedProducts
