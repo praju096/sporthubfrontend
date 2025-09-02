@@ -25,6 +25,7 @@ const ProductsTable = ({ products, onEdit, onDelete, loading }:ProductsTableProp
             <th>Desc</th>
             <th>Gender</th>
             <th>Category</th>
+            <th>Brand</th>
             <th>New</th>
             <th>Sale</th>
             <th>Best</th>
@@ -58,7 +59,8 @@ const ProductsTable = ({ products, onEdit, onDelete, loading }:ProductsTableProp
                 </td>
                 <td>{product.description}</td>
                 <td>{product.category_gender}</td>
-                <td>{product.category}</td>
+                <td>{product.category_name}</td>
+                <td>{product.brand_name}</td>
                 <td>{product.is_new ? "Yes" : "No"}</td>
                 <td>{product.is_on_sale ? "Yes" : "No"}</td>
                 <td>{product.bestseller ? "Yes" : "No"}</td>

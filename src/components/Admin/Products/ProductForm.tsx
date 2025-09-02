@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductFormData, ProductFormProps } from "../../../types/productsTypes";
 import { productSchema } from "../../../types/validation/productSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import { fetchBrands } from "../../../redux/features/brand/brandSlice";
+import { fetchCategoriesItem } from "../../../redux/features/categoryItem/categoryItemSlice";
 
-const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
+const ProductForm = ({ onSubmit, onCancel, editProduct }: ProductFormProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { categoriesItem, loading: catLoading } = useSelector(
+    (state: RootState) => state.categories
+  );
+  const { brands, loading: brandLoading } = useSelector(
+    (state: RootState) => state.brands
+  );
+
   const {
     register,
     handleSubmit,
@@ -16,17 +28,49 @@ const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
     mode: "onTouched",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    dispatch(fetchCategoriesItem());
+    dispatch(fetchBrands());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (editProduct) {
       Object.entries(editProduct).forEach(([key, value]) => {
-        if (key in productSchema.fields) {
+        if (key in productSchema.fields && key !== "category_id" && key !== "brand_id") {
           setValue(key as keyof ProductFormData, value);
         }
       });
+
+      if (categoriesItem.length > 0) {
+        if (editProduct.category_id) {
+          setValue("category_id", editProduct.category_id);
+        } else if (editProduct.category_name) {
+          const categories = categoriesItem.find(
+            (category) => category.category_name === editProduct.category_name
+          );
+          if (categories) {
+            setValue("category_id", categories.category_id);
+          }
+        }
+      }
+
+      if (brands.length > 0) {
+        if (editProduct.brand_id) {
+          setValue("brand_id", editProduct.brand_id);
+        } else if (editProduct.brand_name) {
+          const brandName = brands.find(
+            (brand) => brand.brand_name === editProduct.brand_name
+          );
+          if (brandName) {
+            setValue("brand_id", brandName.brand_id);
+          }
+        }
+      }
     } else {
       reset();
     }
-  }, [editProduct, reset, setValue]);
+  }, [editProduct, categoriesItem, brands, reset, setValue]);
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="row g-3 mb-4">
@@ -144,14 +188,47 @@ const ProductForm = ({ onSubmit, onCancel, editProduct }:ProductFormProps) => {
         <label className="form-label">
           Category<span className="text-danger">*</span>
         </label>
-        <input
-          type="text"
-          placeholder="Category"
-          className={`form-control ${errors.category && touchedFields.category ? "is-invalid" : ""}`}
-          {...register("category")}
-        />
-        {errors.category && (
-          <div className="invalid-feedback">{errors.category.message}</div>
+        <select
+          className={`form-select ${errors.category_id && touchedFields.category_id ? "is-invalid" : ""}`}
+          {...register("category_id")}
+        >
+          <option value="">Select Category</option>
+          {catLoading ? (
+            <option disabled>Loading...</option>
+          ) : (
+            categoriesItem.map((cat) => (
+              <option key={cat.category_id} value={cat.category_id}>
+                {cat.category_name}
+              </option>
+            ))
+          )}
+        </select>
+        {errors.category_id && (
+          <div className="invalid-feedback">{errors.category_id.message}</div>
+        )}
+      </div>
+
+      <div className="col-md-4">
+        <label className="form-label">
+          Brand<span className="text-danger">*</span>
+        </label>
+        <select
+          className={`form-select ${errors.brand_id && touchedFields.brand_id ? "is-invalid" : ""}`}
+          {...register("brand_id")}
+        >
+          <option value="">Select Brand</option>
+          {brandLoading ? (
+            <option disabled>Loading...</option>
+          ) : (
+            brands.map((brand) => (
+              <option key={brand.brand_id} value={brand.brand_id}>
+                {brand.brand_name}
+              </option>
+            ))
+          )}
+        </select>
+        {errors.brand_id && (
+          <div className="invalid-feedback">{errors.brand_id.message}</div>
         )}
       </div>
 

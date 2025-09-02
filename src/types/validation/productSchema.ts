@@ -61,10 +61,14 @@ export const productSchema: yup.ObjectSchema<ProductFormData> = yup.object({
     .mixed<"Men" | "Women" | "Kids">()
     .oneOf(["Men", "Women", "Kids"], "Select a valid gender")
     .required("Gender is required"),
-  category: yup
-    .string()
-    .trim()
+  category_id: yup
+    .number()
+    .typeError("Category is required")
     .required("Category is required"),
+  brand_id: yup
+    .number()
+    .typeError("Brand is required")
+    .required("Brand is required"),
   rating: yup
     .number()
     .typeError("Price must be a valid number")

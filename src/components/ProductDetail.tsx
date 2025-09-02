@@ -104,7 +104,11 @@ const ProductDetail = () => {
 
                     <p className="mb-1">
                         <strong>Category:</strong>{" "}
-                        <span className="text-secondary">{productDetail.category}</span>
+                        <span className="text-secondary">{productDetail.category_name}</span>
+                    </p>
+                    <p className="mb-1">
+                        <strong>Brand:</strong>{" "}
+                        <span className="text-secondary">{productDetail.brand_name}</span>
                     </p>
                     <p className="mb-4">
                         <strong>Gender:</strong>{" "}

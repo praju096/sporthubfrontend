@@ -12,7 +12,10 @@ export type Product = {
   description: string;
   image_url: string;
   category_gender: Gender;
-  category: string;
+  category_id: number;
+  category_name: string;
+  brand_id: number;
+  brand_name: string;
   is_new?: boolean;
   is_on_sale?: boolean;
   bestseller?: boolean;
@@ -20,7 +23,7 @@ export type Product = {
   rating: number;
 };
 
-export type ProductFormData = Omit<Product, 'id' | 'image_url'> & {
+export type ProductFormData = Omit<Product, 'id' | 'image_url' | 'category_name' | 'brand_name'> & {
   image_url: File | null;
 };
 
