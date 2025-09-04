@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,13 +37,12 @@ const ManageBrands = () => {
     }
   });
 
-  const [editing, setEditing] = React.useState<Brand | null>(null);
+  const [editing, setEditing] = useState<Brand | null>(null);
 
   useEffect(() => {
     dispatch(fetchBrands());
   }, [dispatch]);
 
-  // Reset form when editing changes
   useEffect(() => {
     if (editing) {
       setValue('brand_name', editing.brand_name);
@@ -65,11 +64,8 @@ const ManageBrands = () => {
         await dispatch(addBrand({ brand_name: data.brand_name })).unwrap();
         toast.success("Brand added successfully");
       }
-      
-      // Refresh the brands list
       dispatch(fetchBrands());
       
-      // Reset form and editing state
       setEditing(null);
       reset();
       
