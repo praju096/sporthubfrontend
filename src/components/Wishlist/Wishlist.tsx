@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist, moveToCartWishlist, removeWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { fetchUserCart } from '../../redux/features/cart/cartSlice';
+import { toast } from 'react-toastify';
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,6 +22,7 @@ const Wishlist = () => {
     if (window.confirm("Are you sure you want to remove this product from wishlist?")) {
       dispatch(removeWishlist(id));
     }
+    toast.error("Product remove from the Wishlist");
   };
 
   const moveToCart = (id: number) => {

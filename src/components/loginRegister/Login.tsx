@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,14 +9,17 @@ import { LoginUser } from "../../types/authTypes";
 import { AppDispatch, RootState } from "../../store";
 import { loginUserSchema } from "../../types/validation/loginUserSchema";
 import { fetchUserCart } from "../../redux/features/cart/cartSlice";
-import { fetchWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import { addWishlist, clearPendingWishlist, fetchWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import { addToCart, clearPendingCart } from "../../redux/features/cart/cartSlice"
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { actionLoading } = useSelector((state: RootState) => state.auth);
+  const { actionLoading, user } = useSelector((state: RootState) => state.auth);
+  const { pendingCart } = useSelector((state: RootState) => state.cart);
+  const { pendingWishlist } = useSelector((state: RootState) => state.wishlist);
 
   const {
     register,
@@ -26,6 +29,23 @@ const Login = () => {
     resolver: yupResolver(loginUserSchema),
     mode: "onTouched",
   });
+
+  useEffect(() => {
+    if (user) {
+      if (pendingCart) {
+        dispatch(addToCart(pendingCart));
+        dispatch(clearPendingCart());
+        toast.success("Product added to Cart");
+      }
+
+      if (pendingWishlist) {
+        dispatch(addWishlist(pendingWishlist));
+        dispatch(clearPendingWishlist());
+        toast.success("Product added to Wishlist");
+      }
+    }
+  }, [user, pendingCart, pendingWishlist, dispatch]);
+
 
   const onSubmit = async (data: LoginUser) => {
     try {
@@ -45,7 +65,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center bg-light" style={{background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))'}}>
+    <div className="min-vh-100 d-flex align-items-center bg-light" style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))' }}>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6 col-xl-5">

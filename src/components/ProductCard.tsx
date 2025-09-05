@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
-import '../css/ProductCard.css';
+// import '../css/ProductCard.css';
 import { ProductCardProps } from '../types/productsTypes';
 
 const ProductCard = ({ product, onAddToCart, onAddToWishlist, isInCart, isInWishlist, badge }: ProductCardProps) => {
-
     return (
         <div className="product-card card h-100 border-0 shadow-sm">
             <div className="position-relative product-hover-container">
@@ -14,29 +13,30 @@ const ProductCard = ({ product, onAddToCart, onAddToWishlist, isInCart, isInWish
                         {badge}
                     </div>
                 )}
-                <img src={`${process.env.REACT_APP_API_URL}${product.image_url}`} className="card-img-top" alt={product.name} style={{ width: '100%', height: '250px' }} />
-
-                <div className="hover-buttons d-flex flex-column gap-2">
-                    <Link to={`/product/${product.id}`} className="text-decoration-none btn btn-danger btn-sm">
-                        <i className="fas fa-eye me-1"></i>Quick View
-                    </Link>
-                    <button className="btn btn-sm btn-outline-light"
-                        onClick={() => onAddToWishlist(product.id)}
-                        disabled={isInWishlist}
-                    >
-                        {isInWishlist ? (
-                            <><i className="fas fa-heart me-1"></i> In Wishlist</>
-                        ) : (
-                            <><i className="far fa-heart me-1"></i> Add to Wishlist</>
-                        )}
-                    </button>
-                </div>
+                <Link to={`/product/${product.id}`}>
+                    <img
+                        src={`${process.env.REACT_APP_API_URL}${product.image_url}`}
+                        className="card-img-top"
+                        alt={product.name}
+                        style={{ width: '100%', height: '250px'}}
+                    />
+                </Link>
+                <button
+                    className="btn btn-light position-absolute top-0 start-0 m-2 rounded-circle shadow-sm"
+                    onClick={() => onAddToWishlist(product.id)}
+                    disabled={isInWishlist}
+                    style={{ zIndex: 2 }}
+                >
+                    {isInWishlist ? (
+                        <i className="fas fa-heart text-danger"></i>
+                    ) : (
+                        <i className="far fa-heart text-danger"></i>
+                    )}
+                </button>
             </div>
 
             <div className="card-body d-flex flex-column">
-                <h5 className="card-title flex-fill">
-                    {product.name}
-                </h5>
+                <h5 className="card-title flex-fill">{product.name}</h5>
 
                 <div className="d-flex justify-content-between align-items-center mb-2 flex-nowrap">
                     <div className="d-flex align-items-center flex-wrap">
@@ -48,7 +48,7 @@ const ProductCard = ({ product, onAddToCart, onAddToWishlist, isInCart, isInWish
                         )}
                     </div>
                     <div className="text-warning ms-2 flex-shrink-0">
-                        <Rating rating={product.rating} size='sm' />
+                        <Rating rating={product.rating} size="sm" />
                     </div>
                 </div>
 

@@ -4,8 +4,8 @@ import userLoginRegisterApi from "../../services/userLoginRegisterApi";
 
 interface AuthState {
   user: AuthResponse["user"] | null;
-  loading: boolean;        // fetchCurrentUser
-  actionLoading: boolean;  // for login/register/logout actions
+  loading: boolean;       
+  actionLoading: boolean; 
   error: string | null;
 }
 

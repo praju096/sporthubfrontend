@@ -7,8 +7,8 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchAllProducts, searchProducts } from "../../redux/features/products/productSlice";
 import '../../css/Shop.css';
 import { toast } from "react-toastify";
-import { addToCart } from "../../redux/features/cart/cartSlice";
-import { addWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import { addToCart, setPendingCart } from "../../redux/features/cart/cartSlice";
+import { addWishlist, setPendingWishlist } from "../../redux/features/wishlist/wishlistSlice";
 import FiltersSidebar from "./FiltersSidebar";
 import ProductsGrid from "./ProductsGrid";
 import SortOptions from "./SortOptions";
@@ -82,6 +82,7 @@ const Shop = () => {
     const handleAddToWishlist = async (productId: number) => {
         if (!user) {
             toast.warning("Please log in to add items to your wishlist.");
+            dispatch(setPendingWishlist({ product_id: productId }));
             navigate('/login');
             return;
         }
@@ -92,6 +93,7 @@ const Shop = () => {
     const handleAddToCart = async (productId: number) => {
         if (!user) {
             toast.warning("Please log in to add items to your wishlist.");
+            dispatch(setPendingCart({ product_id: productId, quantity: 1 }));
             navigate('/login');
             return;
         }

@@ -6,8 +6,8 @@ import { AppDispatch, RootState } from '../../store';
 import { fetchProductsByCategory } from '../../redux/features/category/categoryProductsSlice';
 import '../../css/Categories.css';
 import { toast } from 'react-toastify';
-import { addToCart } from '../../redux/features/cart/cartSlice';
-import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
+import { addToCart, setPendingCart } from '../../redux/features/cart/cartSlice';
+import { addWishlist, setPendingWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import ProductCard from '../ProductCard';
 
 const Categories = () => {
@@ -38,6 +38,7 @@ const Categories = () => {
   const handleAddToCart = async (productId: number) => {
     if (!user) {
       toast.warning("Please log in to add items to your wishlist.");
+      dispatch(setPendingCart({ product_id: productId, quantity: 1 }));
       navigate('/login');
       return;
     }
@@ -48,6 +49,7 @@ const Categories = () => {
   const handleAddToWishlist = async (productId: number) => {
     if (!user) {
       toast.warning("Please log in to add items to your wishlist.");
+      dispatch(setPendingWishlist({ product_id: productId }));
       navigate('/login');
       return;
     }

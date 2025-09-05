@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import cartApi from "../../../services/cartApi";
-import { CartItem, AddToCartRequest, AdminCartItem } from "../../../types/cartTypes";
-import { userLogout } from "../authSlice";
+import {
+  CartItem,
+  AddToCartRequest,
+  AdminCartItem,
+} from "../../../types/cartTypes";
+import { userLogout, loginUsers } from "../authSlice";
 
 interface CartState {
   userCart: CartItem[];
   adminCart: AdminCartItem[];
+  pendingCart: AddToCartRequest | null;
   loading: boolean;
   error: string | null;
 }
@@ -13,9 +18,14 @@ interface CartState {
 const initialState: CartState = {
   userCart: [],
   adminCart: [],
+  pendingCart: localStorage.getItem("pendingCart")
+    ? JSON.parse(localStorage.getItem("pendingCart") as string)
+    : null,
   loading: false,
   error: null,
 };
+
+// ========== Thunks ==========
 
 export const fetchUserCart = createAsyncThunk<CartItem[]>(
   "cart/fetchCart",
@@ -89,10 +99,21 @@ export const clearCart = createAsyncThunk<CartItem[]>(
   }
 );
 
+// ========== Slice ==========
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    setPendingCart: (state, action) => {
+      state.pendingCart = action.payload;
+      localStorage.setItem("pendingCart", JSON.stringify(action.payload));
+    },
+    clearPendingCart: (state) => {
+      state.pendingCart = null;
+      localStorage.removeItem("pendingCart");
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch Cart user
@@ -112,7 +133,7 @@ const cartSlice = createSlice({
         state.userCart = [];
       })
 
-      // Fetch Cart user
+      // Fetch Cart admin
       .addCase(fetchAdminCart.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -180,8 +201,17 @@ const cartSlice = createSlice({
       .addCase(clearCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      // Replay pendingCart after successful login
+      .addCase(loginUsers.fulfilled, (state, action) => {
+        if (state.pendingCart) {
+          // We don’t call API here, just mark it so UI can dispatch addToCart
+          // (to avoid circular thunk calls inside reducers)
+        }
       });
   },
 });
 
+export const { setPendingCart, clearPendingCart } = cartSlice.actions;
 export default cartSlice.reducer;

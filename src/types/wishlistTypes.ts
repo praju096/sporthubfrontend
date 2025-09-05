@@ -7,7 +7,11 @@ export interface WishlistItem {
   price: number;
 }
 
-export interface MoveToCartRequest { 
+export interface MoveToCartRequest {
+  product_id: number;
+}
+
+export interface AddToWishlistRequest {
   product_id: number;
 }
 

@@ -9,11 +9,11 @@ import Bestsellers from './Bestsellers';
 import StoreLocations from './StoreLocations';
 import Assurance from './Assurance';
 import Footer from './Footer';
-import { addToCart } from '../../redux/features/cart/cartSlice';
+import { addToCart, setPendingCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { addWishlist } from '../../redux/features/wishlist/wishlistSlice';
+import { addWishlist, setPendingWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { useNavigate } from 'react-router-dom';
 import SportsSection from './SportsSection';
 
@@ -27,6 +27,7 @@ const Home = () => {
   const handleAddToCart = async (productId: number) => {
     if (!user) {
       toast.warning("Please log in to add items to your cart.");
+      dispatch(setPendingCart({ product_id: productId, quantity: 1 }));
       navigate('/login');
       return;
     }
@@ -37,6 +38,7 @@ const Home = () => {
   const handleAddToWishlist = async (productId: number) => {
     if (!user) {
       toast.warning("Please log in to add items to your wishlist.");
+      dispatch(setPendingWishlist({ product_id: productId }));
       navigate('/login');
       return;
     }

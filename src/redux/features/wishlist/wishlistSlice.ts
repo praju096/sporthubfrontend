@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { AdminWishlistItem, MoveToCartRequest, WishlistItem } from "../../../types/wishlistTypes";
+import { AddToWishlistRequest, AdminWishlistItem, MoveToCartRequest, WishlistItem } from "../../../types/wishlistTypes";
 import wishlistApi from "../../../services/wishlistApi";
-import { userLogout } from "../authSlice";
+import { loginUsers, userLogout } from "../authSlice";
 
 interface WishlistState {
     wishlist: WishlistItem[];
     adminWishlist: AdminWishlistItem[];
+    pendingWishlist: AddToWishlistRequest | null;
     loading: boolean;
     error: string | null;
 }
@@ -13,11 +14,14 @@ interface WishlistState {
 const initialState: WishlistState = {
     wishlist: [],
     adminWishlist: [],
+    pendingWishlist: localStorage.getItem("pendingWishlist")
+        ? JSON.parse(localStorage.getItem("pendingWishlist") as string)
+        : null,
     loading: false,
     error: null,
 };
 
-export const fetchWishlist = createAsyncThunk(
+export const fetchWishlist = createAsyncThunk<WishlistItem[]>(
     "wishlist/fetchWishlist",
     async (_, { rejectWithValue }) => {
         try {
@@ -40,7 +44,10 @@ export const fetchAdminWishlist = createAsyncThunk<AdminWishlistItem[]>(
     }
 );
 
-export const addWishlist = createAsyncThunk(
+export const addWishlist = createAsyncThunk<
+    WishlistItem[],
+    AddToWishlistRequest
+>(
     "wishlist/addWishlist",
     async (
         data: { product_id: number },
@@ -84,7 +91,16 @@ export const moveToCartWishlist = createAsyncThunk<WishlistItem[], MoveToCartReq
 const wishlistSlice = createSlice({
     name: "wishlist",
     initialState,
-    reducers: {},
+    reducers: {
+        setPendingWishlist: (state, action) => {
+            state.pendingWishlist = action.payload;
+            localStorage.setItem("pendingWishlist", JSON.stringify(action.payload));
+        },
+        clearPendingWishlist: (state) => {
+            state.pendingWishlist = null;
+            localStorage.removeItem("pendingWishlist");
+        },
+    },
     extraReducers: (builder) => {
         builder
             // Fetch Wishlist
@@ -158,8 +174,18 @@ const wishlistSlice = createSlice({
             .addCase(moveToCartWishlist.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+            })
+
+            // Replay pendingWishlist after login
+            .addCase(loginUsers.fulfilled, (state, action) => {
+                if (state.pendingWishlist) {
+                    // We don’t call API here, just mark it so UI can dispatch addToWishlist
+                    // (to avoid circular thunk calls inside reducers)
+                }
             });
     },
 });
 
+export const { setPendingWishlist, clearPendingWishlist } =
+    wishlistSlice.actions;
 export default wishlistSlice.reducer;
