@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { fetchOrderById } from '../../redux/features/order/orderSlice';
 import { OrderStatus, statusClasses } from '../../types/orderTypes';
+import SingleOrderItem from './SingleOrderItem';
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const OrderDetails = () => {
 
   const order = currentOrder?.data?.order;
   const items = currentOrder?.data?.items;
+  const isDelivered = order.status === 'delivered';
 
   return (
     <div className="container mt-5 pt-4" style={{ minHeight: 'calc(100vh - 56px)' }}>
@@ -62,7 +64,7 @@ const OrderDetails = () => {
                 {order?.delivered_at ? "Delivered On" : "Expected Delivery"}
               </h6>
               <p
-                className={`fw-semibold ${order?.delivered_at ? "text-success" : order?.expected_delivery ? "text-" : "text-muted"
+                className={`fw-semibold ${order?.delivered_at ? "text-success" : order?.expected_delivery ? "text-info" : "text-muted"
                   }`}
               >
                 {order?.delivered_at
@@ -93,41 +95,17 @@ const OrderDetails = () => {
         <div className="card-body p-0">
           <ul className="list-group list-group-flush">
             {items.map((item) => (
-              <li
-                key={item.id}
-                className="list-group-item d-flex justify-content-between align-items-center"
-              >
-                <div className="d-flex align-items-center">
-                  {item.product_image && (
-                    <img
-                      src={`${process.env.REACT_APP_API_URL}${item.product_image}`}
-                      alt={item.product_name}
-                      className="rounded me-3"
-                      style={{ width: "60px", height: "60px", objectFit: "cover" }}
-                    />
-                  )}
-                  <div>
-                    <h6 className="mb-1 text-dark">
-                      {item.product_name}
-                    </h6>
-                    <small className="text-muted">Qty: {item.quantity}</small>
-                  </div>
-                </div>
-
-                <div className="text-end">
-                  <span className="text-dark">₹{item.price}</span>
-                  <br />
-                  <small className="text-muted">
-                    ₹{(item.price * item.quantity).toFixed(2)}
-                  </small>
-                </div>
-              </li>
+              <SingleOrderItem 
+                key={item.id} 
+                item={item} 
+                isDelivered={isDelivered} 
+              />
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="mt-3 text-end">
+      <div className="mt-4 text-end">
         <button className="btn btn-outline-dark me-2">
           <i className="bi bi-printer me-2"></i>Print Invoice
         </button>

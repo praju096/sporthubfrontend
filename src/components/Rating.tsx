@@ -6,8 +6,9 @@ const Rating = ({
     maxRating = 5,
     size = 'md',
     showValue = true,
-    className = ''
-}: StarRatingProps) => {
+    className = '',
+    onRate 
+}: StarRatingProps & { onRate?: (newRating: number) => void }) => {
     const clampedRating = Math.max(0, Math.min(rating, maxRating));
 
     const sizeClasses = {
@@ -22,8 +23,9 @@ const Rating = ({
         return (
             <span
                 key={index}
-                className={`position-relative d-inline-block ${sizeClasses[size]}`}
+                className={`position-relative d-inline-block ${sizeClasses[size]} cursor-pointer`}
                 style={{ color: '#e4e5e9' }}
+                onClick={() => onRate && onRate(index + 1)}
             >
                 <i className="bi bi-star-fill"></i>
 
@@ -54,4 +56,5 @@ const Rating = ({
         </div>
     );
 };
+
 export default Rating;

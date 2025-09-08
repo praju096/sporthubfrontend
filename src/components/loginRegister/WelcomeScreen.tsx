@@ -15,6 +15,10 @@ const WelcomeScreen = () => {
     const timer = setTimeout(() => {
       if (role === "admin") {
         navigate("/admin/dashboard");
+      } else if (role === "delivery_partner") {
+        navigate("/deliverypartner/dashboard");
+      } else if (role === "merchant") {
+        navigate("/merchant/dashboard");
       } else {
         navigate("/");
       }

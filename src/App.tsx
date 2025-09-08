@@ -41,11 +41,21 @@ import TrackOrder from './components/Order/TrackOrder';
 import ReturnsExchanges from './components/Order/ReturnsExchanges';
 import ShippingInfo from './components/Order/ShippingInfo';
 import FAQ from './components/Order/FAQ';
+import MerchantLogin from './components/Merchant/MerchantLogin';
+import MerchantPrivateRoute from './MerchantPrivateRoute';
+import MerchantLayout from './components/Merchant/MerchantLayout';
+import DeliveryPartnerLogin from './components/DeliveryPartner/DeliveryPartnerLogin';
+import DeliveryPartnerLayout from './components/DeliveryPartner/DeliveryPartnerLayout';
+import DeliveryPartnerPrivateRoute from './DeliveryPartnerPrivateRoutes';
 
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const hideNavbar = location.pathname.includes("/admin") || location.pathname === "/welcome";
+  const hideNavbar =
+    location.pathname.includes("/admin") ||
+    location.pathname.includes("/merchant") ||
+    location.pathname.includes("/deliverypartner") ||
+    location.pathname === "/welcome";
 
   return (
     <>
@@ -115,6 +125,27 @@ const App = () => {
               <Route path="brands" element={<ManageBrands />} />
               <Route path="contact-messages" element={<ContactMessages />} />
               <Route path="users" element={<ManageUsers />} />
+            </Route>
+          </Route>
+
+          <Route path="/merchant" element={<Navigate to="/merchant/login" />} />
+          <Route path="/merchant/login" element={<MerchantLogin />} />
+          <Route element={<MerchantPrivateRoute />}>
+            <Route path="/merchant" element={<MerchantLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="shop" element={<ManageProducts />} />
+              <Route path="categories" element={<ManageCategories />} />
+              <Route path="orders" element={<ManageOrders />} />
+              <Route path="brands" element={<ManageBrands />} />
+            </Route>
+          </Route>
+
+          <Route path="/deliverypartner" element={<Navigate to="/deliverypartner/login" />} />
+          <Route path="/deliverypartner/login" element={<DeliveryPartnerLogin />} />
+          <Route element={<DeliveryPartnerPrivateRoute />}>
+            <Route path="/deliverypartner" element={<DeliveryPartnerLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="orders" element={<ManageOrders />} />
             </Route>
           </Route>
 

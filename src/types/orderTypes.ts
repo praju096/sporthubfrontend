@@ -10,13 +10,18 @@ export interface orderDetail {
     delivered_at?: string;
 }
 export interface OrderItem {
-    id?: number;
+    id: number;
     order_id: number;
     product_id: number;
     quantity: number;
     price: number;
     product_name: string;
     product_image: string;
+}
+export interface ReviewData {
+    title: string;
+    rating: number;
+    comment: string;
 }
 
 export interface orderCurrentStates {

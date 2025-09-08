@@ -4,8 +4,8 @@ import userLoginRegisterApi from "../../services/userLoginRegisterApi";
 
 interface AuthState {
   user: AuthResponse["user"] | null;
-  loading: boolean;       
-  actionLoading: boolean; 
+  loading: boolean;
+  actionLoading: boolean;
   error: string | null;
 }
 
@@ -52,6 +52,30 @@ export const loginAdmins = createAsyncThunk(
   }
 );
 
+export const loginMerchant = createAsyncThunk(
+  "auth/loginMerchant",
+  async (userData: LoginUser, { rejectWithValue }) => {
+    try {
+      const data = await userLoginRegisterApi.loginMerchant(userData);
+      return data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.message || "Login failed");
+    }
+  }
+);
+
+export const loginDeliveryPartner = createAsyncThunk(
+  "auth/loginDeliveryPartner",
+  async (userData: LoginUser, { rejectWithValue }) => {
+    try {
+      const data = await userLoginRegisterApi.loginDeliveryPartner(userData);
+      return data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.message || "Login failed");
+    }
+  }
+);
+
 export const fetchCurrentUser = createAsyncThunk(
   "auth/fetchCurrentUser",
   async (_, { rejectWithValue }) => {
@@ -71,6 +95,16 @@ export const userLogout = createAsyncThunk("auth/userLogout", async () => {
 
 export const adminLogout = createAsyncThunk("auth/adminLogout", async () => {
   await userLoginRegisterApi.logoutAdmin();
+  return null;
+});
+
+export const merchantLogout = createAsyncThunk("auth/merchantLogout", async () => {
+  await userLoginRegisterApi.logoutMerchant();
+  return null;
+});
+
+export const deliveryPartnerLogout = createAsyncThunk("auth/deliveryPartnerLogout", async () => {
+  await userLoginRegisterApi.logoutDeliveryPartner();
   return null;
 });
 
@@ -108,7 +142,7 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       })
 
-       // Login Admin
+      // Login Admin
       .addCase(loginAdmins.pending, (state) => {
         state.actionLoading = true;
         state.error = null;
@@ -118,6 +152,34 @@ const authSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(loginAdmins.rejected, (state, action) => {
+        state.actionLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Login merchant
+      .addCase(loginMerchant.pending, (state) => {
+        state.actionLoading = true;
+        state.error = null;
+      })
+      .addCase(loginMerchant.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+        state.actionLoading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(loginMerchant.rejected, (state, action) => {
+        state.actionLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Login delivery partner
+      .addCase(loginDeliveryPartner.pending, (state) => {
+        state.actionLoading = true;
+        state.error = null;
+      })
+      .addCase(loginDeliveryPartner.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+        state.actionLoading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(loginDeliveryPartner.rejected, (state, action) => {
         state.actionLoading = false;
         state.error = action.payload as string;
       })
@@ -143,6 +205,16 @@ const authSlice = createSlice({
 
       //logout admin
       .addCase(adminLogout.fulfilled, (state) => {
+        state.user = null;
+      })
+
+      //logout merchant
+      .addCase(merchantLogout.fulfilled, (state) => {
+        state.user = null;
+      })
+
+      //logout delivery Partner
+      .addCase(deliveryPartnerLogout.fulfilled, (state) => {
         state.user = null;
       });
   },
