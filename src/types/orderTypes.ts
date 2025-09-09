@@ -11,7 +11,7 @@ export interface orderDetail {
 }
 export interface OrderItem {
     id: number;
-    order_id: number;
+    user_id?: number;
     product_id: number;
     quantity: number;
     price: number;
@@ -19,10 +19,16 @@ export interface OrderItem {
     product_image: string;
 }
 export interface ReviewData {
+    id: number;
+    product_id: number;
+    user_id: number;
     title: string;
     rating: number;
     comment: string;
+    user_name: string;
+    created_at: string;
 }
+export type ReviewFormData = Omit<ReviewData, 'id' | 'product_id' | 'user_id' | 'user_name' | 'created_at'>
 
 export interface orderCurrentStates {
     data: {

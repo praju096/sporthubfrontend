@@ -10,6 +10,7 @@ import orderReducer from './redux/features/order/orderSlice';
 import contactReducer from './redux/features/contact/contactSlice';
 import categoryReducer from "./redux/features/categoryItem/categoryItemSlice";
 import brandReducer from "./redux/features/brand/brandSlice";
+import reviewReducer from './redux/features/review/reviewSlice';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     contact: contactReducer,
     categories: categoryReducer,
     brands: brandReducer,
+    reviews: reviewReducer,
   },
 });
 

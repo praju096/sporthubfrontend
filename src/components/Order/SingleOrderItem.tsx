@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { OrderItem, ReviewData } from '../../types/orderTypes';
+import { OrderItem, ReviewFormData } from '../../types/orderTypes';
 import Rating from '../Rating';
 import { reviewSchema } from '../../types/validation/reviewSchama';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { submitReview } from '../../redux/features/review/reviewSlice';
+import { toast } from 'react-toastify';
 
 interface OrderItemProps {
   item: OrderItem;
@@ -11,6 +15,7 @@ interface OrderItemProps {
 }
 
 const SingleOrderItem = ({ item, isDelivered }: OrderItemProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const {
@@ -19,7 +24,7 @@ const SingleOrderItem = ({ item, isDelivered }: OrderItemProps) => {
     control,
     formState: { errors, touchedFields },
     reset,
-  } = useForm<ReviewData>({
+  } = useForm<ReviewFormData>({
     resolver: yupResolver(reviewSchema),
     defaultValues: {
       title: '',
@@ -29,11 +34,15 @@ const SingleOrderItem = ({ item, isDelivered }: OrderItemProps) => {
     mode: "onTouched",
   });
 
-  const submitReview = (data: ReviewData) => {
-    console.log(`Submitting review for item ${item.id}:`, data);
-    alert(`Review submitted for ${item.product_name}`);
-    reset();
-    setIsExpanded(false);
+  const onSubmit = async (data: ReviewFormData) => {
+    try {
+      await dispatch(submitReview({ ...data, product_id: item.product_id }));
+      toast.success('Review sent successfully!');
+      reset();
+      setIsExpanded(false);
+    } catch (error) {
+      console.error('Failed to submit review:', error);
+    }
   };
 
   return (
@@ -68,14 +77,14 @@ const SingleOrderItem = ({ item, isDelivered }: OrderItemProps) => {
           {isExpanded ? (
             <div className="card bg-light border-0">
               <div className="card-body">
-                <form onSubmit={handleSubmit(submitReview)} className="row g-3 mb-3">
+                <form onSubmit={handleSubmit(onSubmit)} className="row g-3 mb-3">
                   <h6 className="card-title">Rate your experience with {item.product_name}</h6>
                   <div className="col-md-6">
                     <label htmlFor={`title-${item.id}`} className="form-label">
                       Review Title
                     </label>
                     <input
-                      id={`title-${item.id}`}
+                      id={`title-${item.product_id}`}
                       className={`form-control ${errors.title && touchedFields.title ? 'is-invalid' : ''}`}
                       {...register('title')}
                       placeholder="Enter a title for your review"
@@ -106,11 +115,11 @@ const SingleOrderItem = ({ item, isDelivered }: OrderItemProps) => {
                   </div>
 
                   <div className="col-md-12">
-                    <label htmlFor={`review-${item.id}`} className="form-label">
+                    <label htmlFor={`review-${item.product_id}`} className="form-label">
                       Your Review
                     </label>
                     <textarea
-                      id={`review-${item.id}`}
+                      id={`review-${item.product_id}`}
                       className={`form-control ${errors.comment && touchedFields.comment ? 'is-invalid' : ''}`}
                       rows={3}
                       placeholder="Share your experience with this product"

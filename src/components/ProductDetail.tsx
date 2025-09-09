@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { addToCart } from "../redux/features/cart/cartSlice";
 import { addWishlist } from "../redux/features/wishlist/wishlistSlice";
 import Rating from "./Rating";
+import { fetchReviews } from "../redux/features/review/reviewSlice";
 
 const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,10 +22,13 @@ const ProductDetail = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const cartItems = useSelector((state: RootState) => state.cart.userCart);
     const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
+    const reviews = useSelector((state: RootState) => state.reviews.reviews);
 
     useEffect(() => {
-        if (productId) dispatch(getProductById(productId));
-
+        if (productId) {
+            dispatch(getProductById(productId));
+            dispatch(fetchReviews(productId));
+        }
     }, [productId, dispatch]);
 
     if (loading)
@@ -177,7 +181,61 @@ const ProductDetail = () => {
                         <p className="text-muted">{productDetail.description || "No additional details available."}</p>
                     </div>
                     <div className="tab-pane fade" id="reviews" role="tabpanel">
-                        <p className="text-muted">No reviews yet.</p>
+                        <div className="mb-4">
+                            <h1 className="">Customer Reviews</h1>
+                        </div>
+                        {reviews && reviews.length > 0 ? (
+                            <div className="list-group">
+                                {reviews.map((review) => (
+                                    <div
+                                        key={review.id}
+                                        className="list-group-item mb-3 shadow-sm rounded"
+                                    >
+                                        <div className="d-flex align-items-start mb-2">
+                                            <div
+                                                className="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-3"
+                                                style={{
+                                                    width: 48,
+                                                    height: 48,
+                                                    fontWeight: "600",
+                                                    fontSize: "1.2rem",
+                                                    userSelect: "none",
+                                                }}
+                                                title={review.user_name}
+                                            >
+                                                {review.user_name
+                                                    ? review.user_name
+                                                        .split(" ")
+                                                        .map((n) => n[0])
+                                                        .join("")
+                                                        .toUpperCase()
+                                                    : "U"}
+                                            </div>
+                                            <div className="flex-grow-1">
+                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                    <h6 className="mb-0">{review.title}</h6>
+                                                    <div>
+                                                        <Rating rating={review.rating} />
+                                                    </div>
+                                                </div>
+                                                <p className="mb-1">{review.comment}</p>
+                                                <small className="text-muted d-block mb-2">
+                                                    Reviewed by <strong>{review.user_name}</strong> on{" "}
+                                                    {review.created_at
+                                                        ? new Date(review.created_at).toLocaleDateString()
+                                                        : "N/A"}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-muted">
+                                No reviews yet. Be the first to review this product!
+                            </p>
+                        )}
+
                     </div>
                 </div>
             </div>
