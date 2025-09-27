@@ -22,7 +22,7 @@ const ProductDetail = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const cartItems = useSelector((state: RootState) => state.cart.userCart);
     const wishlistItems = useSelector((state: RootState) => state.wishlist.wishlist);
-    const reviews = useSelector((state: RootState) => state.reviews.reviews);
+    const { reviews } = useSelector((state: RootState) => state.reviews);
 
     useEffect(() => {
         if (productId) {
@@ -99,13 +99,9 @@ const ProductDetail = () => {
                             </span>
                         )}
                     </div>
-
-                    {productDetail.rating && (
-                        <div className="mb-4">
-                            <Rating rating={productDetail.rating} />
-                        </div>
-                    )}
-
+                    <div className="mb-4">
+                        <Rating rating={reviews.average_rating} />
+                    </div>
                     <p className="mb-1">
                         <strong>Category:</strong>{" "}
                         <span className="text-secondary">{productDetail.category_name}</span>
@@ -181,12 +177,17 @@ const ProductDetail = () => {
                         <p className="text-muted">{productDetail.description || "No additional details available."}</p>
                     </div>
                     <div className="tab-pane fade" id="reviews" role="tabpanel">
-                        <div className="mb-4">
-                            <h1 className="">Customer Reviews</h1>
+                        <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                            <h1 className="mb-0">Customer Reviews</h1>
+                            <div className="d-flex align-items-center mb-0">
+                                <span className="me-2">Product Rating:</span>
+                                <Rating rating={reviews.average_rating} />
+                                <span className="ms-2">/ 5</span>
+                            </div>
                         </div>
-                        {reviews && reviews.length > 0 ? (
+                        {reviews.reviews && reviews.reviews.length > 0 ? (
                             <div className="list-group">
-                                {reviews.map((review) => (
+                                {reviews.reviews.map((review) => (
                                     <div
                                         key={review.id}
                                         className="list-group-item mb-3 shadow-sm rounded"

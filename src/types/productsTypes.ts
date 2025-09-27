@@ -23,7 +23,7 @@ export type Product = {
   rating: number;
 };
 
-export type ProductFormData = Omit<Product, 'id' | 'image_url' | 'category_name' | 'brand_name'> & {
+export type ProductFormData = Omit<Product, 'id' | 'image_url' | 'category_name' | 'brand_name' | 'rating'> & {
   image_url: File | null;
 };
 

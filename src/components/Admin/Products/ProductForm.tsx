@@ -232,22 +232,6 @@ const ProductForm = ({ onSubmit, onCancel, editProduct }: ProductFormProps) => {
         )}
       </div>
 
-      <div className="col-md-4">
-        <label className="form-label">
-          Rating<span className="text-danger">*</span>
-        </label>
-        <input
-          type="number"
-          placeholder="Rating"
-          step="0.01"
-          className={`form-control ${errors.rating && touchedFields.rating ? "is-invalid" : ""}`}
-          {...register("rating")}
-        />
-        {errors.rating && (
-          <div className="invalid-feedback">{errors.rating.message}</div>
-        )}
-      </div>
-
       <div className="input-group mx-auto">
         <div className="col-md-2 form-check form-switch">
           <label className="form-label">New</label>

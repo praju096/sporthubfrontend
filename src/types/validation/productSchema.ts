@@ -69,12 +69,6 @@ export const productSchema: yup.ObjectSchema<ProductFormData> = yup.object({
     .number()
     .typeError("Brand is required")
     .required("Brand is required"),
-  rating: yup
-    .number()
-    .typeError("Price must be a valid number")
-    .min(1, 'Rating must be at least 1')
-    .max(5, 'Rating cannot be more than 5')
-    .required('Rating is required'),
   is_new: yup.boolean().default(false),
   is_on_sale: yup.boolean().default(false),
   bestseller: yup.boolean().default(false),

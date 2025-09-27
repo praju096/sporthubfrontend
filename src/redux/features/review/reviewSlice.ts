@@ -3,13 +3,19 @@ import reviewApi from '../../../services/reviewApi';
 import { ReviewData } from '../../../types/orderTypes';
 
 interface ReviewState {
-    reviews: ReviewData[];
+    reviews: {
+        average_rating: number;
+        reviews: ReviewData[];
+    };
     loading: boolean;
     error: string | null;
 }
 
 const initialState: ReviewState = {
-    reviews: [],
+    reviews: {
+        average_rating: 0.0,
+        reviews: [],
+    },
     loading: false,
     error: null,
 };

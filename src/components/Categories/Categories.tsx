@@ -66,8 +66,6 @@ const Categories = () => {
   };
   const categoryDisplayName = categoryDisplayNameMap[selectedCategory];
 
-
-
   return (
     <div className="categories-page">
       <div className="shop-hero mb-5">
